@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dishes",
+  "info": {
+    "singularName": "dish",
+    "pluralName": "dishes",
+    "displayName": "Блюда",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "ingredients": {
+      "type": "text"
+    },
+    "kbzhu": {
+      "type": "string"
+    },
+    "iiko_id": {
+      "type": "string"
+    },
+    "dish_category_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::dishes-category.dishes-category"
+    },
+    "weight": {
+      "type": "integer"
+    }
+  }
+}

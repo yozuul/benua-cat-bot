@@ -1,0 +1,7 @@
+/**
+ * menyu-na-nedelyu router
+ */
+
+import { factories } from '@strapi/strapi';
+
+export default factories.createCoreRouter('api::menyu-na-nedelyu.menyu-na-nedelyu');

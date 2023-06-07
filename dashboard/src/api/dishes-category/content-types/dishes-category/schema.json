@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dishes_categories",
+  "info": {
+    "singularName": "dishes-category",
+    "pluralName": "dishes-categories",
+    "displayName": "Категории",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "parentName": {
+      "type": "string"
+    },
+    "subName": {
+      "type": "string"
+    }
+  }
+}

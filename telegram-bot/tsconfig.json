@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@bot/keyboards": [
+        "src/bot/keyboards"
+      ],
+      "@bot/keyboards/*": [
+        "src/keyboards/*"
+      ],
+      "@app/bot": [
+        "src/bot"
+      ],
+      "@app/bot/*": [
+        "src/bot/*"
+      ],
+      "@app/common": [
+        "src/common"
+      ],
+      "@app/common/*": [
+        "src/common/*"
+      ],
+      "@app/database": [
+        "src/database"
+      ],
+      "@app/database/*": [
+        "src/database/*"
+      ],
+    }
+  }
+}
