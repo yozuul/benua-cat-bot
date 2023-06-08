@@ -1,10 +1,10 @@
 import { Column, DataType, Model, Table, BelongsToMany } from 'sequelize-typescript'
 import { Dish } from './dish.model'
-import { DishDishCategoryLink } from './dish_dish-category_link.model'
+import { DishCategoryLink } from './dishes__category_link.model'
 
 const { INTEGER, STRING, DATE } = DataType
 
-@Table({ tableName: 'dishes_categories', timestamps: false })
+@Table({ tableName: 'categories', timestamps: false })
 export class DishCategory extends Model<DishCategory> {
    @Column({
       type: INTEGER,
@@ -31,6 +31,6 @@ export class DishCategory extends Model<DishCategory> {
       type: INTEGER, allowNull: false, defaultValue: 1
    }) created_by_id: number
 
-   @BelongsToMany(() => Dish, () => DishDishCategoryLink)
+   @BelongsToMany(() => Dish, () => DishCategoryLink)
    dishes: Dish[]
 }

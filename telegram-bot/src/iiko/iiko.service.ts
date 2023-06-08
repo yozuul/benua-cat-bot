@@ -2,12 +2,18 @@ import { writeFile } from 'node:fs/promises'
 import { Buffer } from 'node:buffer'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 
+import { PanelFilesRepo } from '@app/database/repo'
+
 @Injectable()
 export class IikoService implements OnModuleInit {
+   constructor(
+      private panelFilesRepo: PanelFilesRepo
+   ) {}
    private iikoAccessToke
 
    async onModuleInit() {
-      await this.auth()
+      // this.panelFilesRepo.getFiles()
+      // await this.auth()
       // this.getCustomersCategories()
       // this.getWebhookSettings()
       // this.getMenu()

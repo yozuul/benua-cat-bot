@@ -1,8 +1,9 @@
 import { Column, DataType, Model, Table, BelongsToMany } from 'sequelize-typescript'
-import { DishCategory } from './dish-category.model'
-import {DishDishCategoryLink} from './dish_dish-category_link.model'
 
-const { INTEGER, TEXT, STRING, DATE } = DataType
+import { DishCategory } from './dish-category.model'
+import { DishCategoryLink } from './dishes__category_link.model'
+
+const { INTEGER, TEXT, STRING, DATE, BOOLEAN } = DataType
 
 interface DishesCreationAttrs {
    closed: boolean
@@ -21,14 +22,6 @@ export class Dish extends Model<Dish> {
    }) name: string
 
    @Column({
-      type: INTEGER, allowNull: false
-   }) price: number
-
-   @Column({
-      type: INTEGER, allowNull: true
-   }) weight: number
-
-   @Column({
       type: TEXT, allowNull: true
    }) ingredients: string
 
@@ -37,21 +30,29 @@ export class Dish extends Model<Dish> {
    }) kbzhu: string
 
    @Column({
+      type: INTEGER, allowNull: false
+   }) price: number
+
+   @Column({
+      type: INTEGER, allowNull: true
+   }) weight: number
+
+   @Column({
       type: STRING, allowNull: true
-   }) iiko_id: string
+   }) iiko_articul: string
+
+   @Column({
+      type: BOOLEAN, allowNull: false, defaultValue: true
+   }) checked: boolean
 
    @Column({
       type: DATE, allowNull: false, defaultValue: new Date
    }) created_at: Date
 
    @Column({
-      type: DATE, allowNull: false, defaultValue: new Date
-   }) published_at: Date
-
-   @Column({
       type: INTEGER, allowNull: false, defaultValue: 1
    }) created_by_id: number
 
-   @BelongsToMany(() => DishCategory, () => DishDishCategoryLink)
+   @BelongsToMany(() => DishCategory, () => DishCategoryLink)
    dishCategories: DishCategory[];
 }

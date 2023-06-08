@@ -1,10 +1,11 @@
 {
   "kind": "collectionType",
-  "collectionName": "menyu_na_nedelyus",
+  "collectionName": "weekly_menus",
   "info": {
-    "singularName": "menyu-na-nedelyu",
-    "pluralName": "menyu-na-nedelyus",
-    "displayName": "Меню на неделю"
+    "singularName": "weekly-menu",
+    "pluralName": "weekly-menus",
+    "displayName": "Меню на неделю",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,14 +13,15 @@
   "pluginOptions": {},
   "attributes": {
     "monday": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "tuesday": {
       "allowedTypes": [
@@ -52,6 +54,16 @@
       "multiple": false
     },
     "friday": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "all": {
       "allowedTypes": [
         "images",
         "files",

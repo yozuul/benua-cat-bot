@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { Ctx, InjectBot, On, Start, Update } from 'nestjs-telegraf'
 import { Telegraf } from 'telegraf'
 
-// import { SceneContext, SessionContext } from '@app/common/interfaces'
+import { SceneContext } from '@app/common/interfaces'
+import { USERS_SCENE } from '@app/common/constants'
 // import { NavigationKeyboard } from '@bot/keyboards'
-// import { USERS_SCENE } from '@app/common/constants'
 
 @Injectable()
 @Update()
@@ -15,10 +15,10 @@ export class BotUpdate {
       // private readonly navigationKeyboard: NavigationKeyboard
    ) {}
 
-//    @Start()
-//    async startCommand(ctx: SceneContext) {
-//       ctx.scene.enter(USERS_SCENE.STARTED)
-//    }
+   @Start()
+   async startCommand(ctx: SceneContext) {
+      ctx.scene.enter(USERS_SCENE.STARTED)
+   }
 //
 //    @On('callback_query')
 //    async handleNonSceneCallback(@Ctx() ctx: SessionContext) {

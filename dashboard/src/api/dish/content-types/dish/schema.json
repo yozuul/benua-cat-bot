@@ -15,25 +15,43 @@
     "name": {
       "type": "string"
     },
-    "price": {
-      "type": "integer"
-    },
     "ingredients": {
       "type": "text"
     },
     "kbzhu": {
       "type": "string"
     },
-    "iiko_id": {
-      "type": "string"
-    },
-    "dish_category_id": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::dishes-category.dishes-category"
+    "price": {
+      "type": "integer"
     },
     "weight": {
       "type": "integer"
+    },
+    "iiko_articul": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "checked": {
+      "type": "boolean",
+      "default": true
+    },
+    "category_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
     }
   }
 }

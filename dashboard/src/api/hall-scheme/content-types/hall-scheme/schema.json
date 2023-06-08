@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hall_schemas",
+  "info": {
+    "singularName": "hall-scheme",
+    "pluralName": "hall-schemas",
+    "displayName": "Схема зала"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "schema": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

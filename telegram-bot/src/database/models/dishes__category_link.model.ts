@@ -9,15 +9,17 @@ interface DishesCategoriesCreationAttrs {
    reason: string
 }
 
-@Table({ tableName: 'dishes_dish_category_id_links', timestamps: false })
-export class DishDishCategoryLink extends Model<DishDishCategoryLink> {
+@Table({ tableName: 'dishes_category_id_links', timestamps: false })
+export class DishCategoryLink extends Model<DishCategoryLink> {
    @ForeignKey(() => Dish)
-   @Column
-   dish_id: number;
+   @Column({
+      type: INTEGER,
+   }) dish_id: number;
 
    @ForeignKey(() => DishCategory)
-   @Column
-   dishes_category_id: number;
+   @Column({
+      type: INTEGER,
+   }) category_id: number;
 
    @BelongsTo(() => Dish)
    dish: Dish;
