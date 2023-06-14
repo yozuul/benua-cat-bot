@@ -9,6 +9,7 @@ import { DatabaseModule } from '@app/database/database.module';
       DatabaseModule
    ],
    controllers: [IikoController],
-   providers: [IikoService]
+   providers: [IikoService],
+   exports: [IikoService]
 })
 export class IikoModule {}

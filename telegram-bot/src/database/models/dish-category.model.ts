@@ -2,7 +2,7 @@ import { Column, DataType, Model, Table, BelongsToMany } from 'sequelize-typescr
 import { Dish } from './dish.model'
 import { DishCategoryLink } from './dishes__category_link.model'
 
-const { INTEGER, STRING, DATE } = DataType
+const { INTEGER, STRING, DATE, BOOLEAN } = DataType
 
 @Table({ tableName: 'categories', timestamps: false })
 export class DishCategory extends Model<DishCategory> {

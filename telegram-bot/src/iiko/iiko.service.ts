@@ -13,11 +13,16 @@ export class IikoService implements OnModuleInit {
 
    async onModuleInit() {
       // this.panelFilesRepo.getFiles()
-      // await this.auth()
       // this.getCustomersCategories()
       // this.getWebhookSettings()
       // this.getMenu()
    }
+
+
+// IikoController eventType StopListUpdate
+// IikoController eventInfo {
+//   terminalGroupsStopListsUpdates: [ { id: '6ca8d477-17ce-4281-a17e-81b6926a0ad7', isFull: false } ]
+// }
 
    async test() {
       const url = 'https://api-ru.iiko.services/api/1/payment_types'
@@ -149,6 +154,7 @@ export class IikoService implements OnModuleInit {
    }
 
    async getMenu() {
+      await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/nomenclature'
       try {
          const response = await fetch(url, {
@@ -159,7 +165,6 @@ export class IikoService implements OnModuleInit {
             })
          });
          const data = await response.json()
-         console.log(data)
          await this.toFile(data)
          return data
        } catch (error) {

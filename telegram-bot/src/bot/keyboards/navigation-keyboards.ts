@@ -19,8 +19,81 @@ export class NavigationKeyboard {
             USERS_BUTTON.STARTED.ABOUT.ACTION
          ),
          Markup.button.callback(
-            USERS_BUTTON.STARTED.ACTION.TEXT,
-            USERS_BUTTON.STARTED.ACTION.ACTION
+            USERS_BUTTON.STARTED.PROMO.TEXT,
+            USERS_BUTTON.STARTED.PROMO.ACTION
+         ),
+      ]
+      return Markup.keyboard(buttons, {
+         columns: 2
+      }).resize()
+   }
+   mainMenu() {
+      const buttons = [
+         Markup.button.callback(
+            USERS_BUTTON.MENU.WEEKLY.TEXT,
+            USERS_BUTTON.MENU.WEEKLY.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU.WEEKLY2.TEXT,
+            USERS_BUTTON.MENU.WEEKLY2.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU.DAILY.TEXT,
+            USERS_BUTTON.MENU.DAILY.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU.GRILL.TEXT,
+            USERS_BUTTON.MENU.GRILL.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU.COFFEE.TEXT,
+            USERS_BUTTON.MENU.COFFEE.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.BACK.TEXT,
+            USERS_BUTTON.BACK.ACTION
+         ),
+      ]
+      return Markup.keyboard(buttons, {
+         columns: 2
+      }).resize()
+   }
+   grillMenu() {
+      const buttons = [
+         Markup.button.callback(
+            USERS_BUTTON.MENU_GRILL.BREAKFAST.TEXT,
+            USERS_BUTTON.MENU_GRILL.BREAKFAST.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU_GRILL.MAIN.TEXT,
+            USERS_BUTTON.MENU_GRILL.MAIN.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU_GRILL.GARNISH.TEXT,
+            USERS_BUTTON.MENU_GRILL.GARNISH.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.MENU_GRILL.SAUSE.TEXT,
+            USERS_BUTTON.MENU_GRILL.SAUSE.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.BACK.TEXT,
+            USERS_BUTTON.BACK.ACTION
+         ),
+      ]
+      return Markup.keyboard(buttons, {
+         columns: 2
+      }).resize()
+   }
+   aboutButton() {
+      const buttons = [
+         Markup.button.callback(
+            USERS_BUTTON.ABOUT.TEXT,
+            USERS_BUTTON.ABOUT.ACTION
+         ),
+         Markup.button.callback(
+            USERS_BUTTON.BACK.TEXT,
+            USERS_BUTTON.BACK.ACTION
          ),
       ]
       return Markup.keyboard(buttons, {
@@ -30,7 +103,8 @@ export class NavigationKeyboard {
    backButton() {
       return Markup.keyboard([
          Markup.button.callback(
-            USERS_BUTTON.BACK.TEXT, USERS_BUTTON.BACK.ACTION
+            USERS_BUTTON.BACK.TEXT,
+            USERS_BUTTON.BACK.ACTION
          )], {
          columns: 1
       }).resize()

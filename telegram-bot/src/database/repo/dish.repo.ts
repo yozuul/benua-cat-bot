@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Op } from 'sequelize'
 
-import { Dish, DishCategoryLink } from '../models'
+import { Dish, DishCategory, DishCategoryLink } from '../models'
 import { DishCategoryRepo } from './dish-category.repo'
 
 @Injectable()
@@ -14,6 +14,61 @@ export class DishRepo {
       private dishCatLinkRepo: typeof DishCategoryLink,
       private dishCategoryRepo: DishCategoryRepo
    ) {}
+
+   async getByCategory(catName) {
+      const dishes = []
+      const categories = await this.dishCategoryRepo.findByName(catName)
+      for (let { id } of categories) {
+         const foundedDishes = await this.dishCatLinkRepo.findAll({
+            where: {
+               category_id: id
+            }, include: [Dish],
+            raw: true
+         })
+         for (let dish of foundedDishes) {
+            dishes.push({
+               name: dish['dish.name'],
+               ingredients: dish['dish.ingredients'],
+               kbzhu: dish['dish.kbzhu'],
+               weight: dish['dish.weight'],
+               price: dish['dish.price'],
+               photo: dish['dish.photo_url'],
+               iiko_id: dish['dish.iiko_id'],
+               dish_id: dish['dish_id'],
+            })
+         }
+      }
+      return dishes
+   }
+
+   async findDish(name) {
+      const result = []
+      const founded = await this.dishRepo.findAll({
+         where: {
+            name: {
+               [Op.iLike]: `%${name}%`,
+            },
+         }
+      })
+      if(founded.length > 0) {
+         for (let dish of founded) {
+            const category = await this.dishCatLinkRepo.findOne({
+               where: {
+                  dish_id: dish.id,
+               }, include: [DishCategory]
+            })
+            result.push({
+               name: dish.name,
+               ingredients: dish.ingredients,
+               kbzhu: dish.kbzhu,
+               weight: dish.weight,
+               price: dish.price,
+               category: category.dishCategory.parent_name
+            })
+         }
+      }
+      return result
+   }
 
    async switchChecked() {
       await this.dishRepo.update({ checked: false }, {
@@ -39,8 +94,22 @@ export class DishRepo {
             }
          })
          if(dishExist) {
-            dishExist.checked = true
-            await dishExist.save()
+            dish.checked = true
+            this.dishRepo.update(dish, {
+               where: {
+                  id: dishExist.id
+               }
+            })
+            const { dishCategory } = await this.dishCatLinkRepo.findOne({
+               where: {
+                  dish_id: dishExist.id
+               }, include: [DishCategory],
+            })
+            const categoryData = {
+               parent_name: dish.parent_name,
+               sub_name: dish.sub_name
+            }
+            await this.dishCategoryRepo.updateCategory(categoryData, dishCategory.id)
          }
          if(!dishExist) {
             console.log('Добавляем блюдо', dish)
@@ -58,6 +127,11 @@ export class DishRepo {
    async findByName(dishName) {
       return this.dishRepo.findOne({
          where: { name: dishName }
+      })
+   }
+   async findById(id) {
+      return this.dishRepo.findOne({
+         where: { id: id }
       })
    }
 }

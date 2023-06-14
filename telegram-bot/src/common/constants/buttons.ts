@@ -9,7 +9,7 @@ export const USERS_BUTTON =  {
       ABOUT: {
          TEXT: '🐱 О нас', ACTION: 'about_action'
       },
-      ACTION: {
+      PROMO: {
          TEXT: '🏷 Акции', ACTION: 'action_action'
       },
    },
@@ -18,16 +18,42 @@ export const USERS_BUTTON =  {
    },
    MENU: {
       WEEKLY: {
-         TEXT: '🍱 Еженедельное', ACTION: 'weekly_menu_action'
+         TEXT: '🗓 Еженедельное меню', ACTION: 'weekly_menu_action'
       },
-      DAYLY: {
-         TEXT: '🗓 Еа день', ACTION: 'dayly_menu_action'
+      WEEKLY2: {
+         TEXT: '🗓 Еженедельное меню 2', ACTION: 'weekly_menu2_action'
+      },
+      DAILY: {
+         TEXT: '🗓 Меню на день', ACTION: 'daily_menu_action'
       },
       GRILL: {
-         TEXT: '🥩 Гриль', ACTION: 'grill_menu_action'
+         TEXT: '🍖 Гриль меню', ACTION: 'grill_menu_action'
       },
       COFFEE: {
-         TEXT: '☕️ Кофейное', ACTION: 'grill_menu_action'
+         TEXT: '☕️ Кофейное меню', ACTION: 'coffee_menu_action'
       },
+      BACK: {
+         TEXT: '👈 Назад', ACTION: 'back_menu_action'
+      },
+   },
+   MENU_GRILL: {
+      BREAKFAST: {
+         TEXT: 'Завтрак (до 12:00)', ACTION: 'weekly_menu_action'
+      },
+      MAIN: {
+         TEXT: 'Основные блюда', ACTION: 'weekly_menu2_action'
+      },
+      GARNISH: {
+         TEXT: 'Гарниры', ACTION: 'daily_menu_action'
+      },
+      SAUSE: {
+         TEXT: 'Соусы', ACTION: 'grill_menu_action'
+      },
+      BACK: {
+         TEXT: '👈 Назад', ACTION: 'back_menu_action'
+      },
+   },
+   ABOUT: {
+      TEXT: 'Схема зала', ACTION: 'scheme_action'
    }
 }

@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "guests",
+  "info": {
+    "singularName": "guest",
+    "pluralName": "guests",
+    "displayName": "Гости",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "tg_id": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "signed_newsletter": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

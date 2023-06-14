@@ -2,13 +2,17 @@ import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as XLSX from 'xlsx'
 
 import { DishRepo } from '@app/database/repo'
+import { IikoService } from 'src/iiko/iiko.service'
 
 @Injectable()
 export class ExcelUpdaterService implements OnModuleInit {
    constructor(
       private dishRepo: DishRepo,
+      private iikoService: IikoService
    ) {}
    async parceTable() {
+      const iikoMenu = await this.iikoService.getMenu()
+      // console.log(iikoMenu)
       const workbook = XLSX.readFile('data/all-dishes.xlsx')
       const sheetName = workbook.SheetNames[0]
       // Получаем первый лист рабочей книги
@@ -29,20 +33,31 @@ export class ExcelUpdaterService implements OnModuleInit {
             sub_name: row['категория 2 уровня'],
             weight: row['ГР'],
             price: row['руб'],
-            iiko_id: row['артикул'],
+            iiko_articul: row['артикул']?.toString(),
+            iiko_id: null,
+            photo_url: null,
             kbzhu: '',
          }
-         dish.kbzhu += `Энергетическая ценность порции: \n`
+         dish.kbzhu += `Энергетическая ценность порции: `
          dish.kbzhu += `б: ${KBZHU.b}, `
          dish.kbzhu += `ж: ${KBZHU.z}, `
          dish.kbzhu += `у: ${KBZHU.u}, `
-         dish.kbzhu += `ккал: ${KBZHU.k}, `
+         dish.kbzhu += `Ккал: ${KBZHU.k}`
 
          if(dish.name && dish.price
             && dish.parent_name !== 'Архив'
             && KBZHU.k && KBZHU.b
             && dish.ingredients
          ) {
+            if(dish.iiko_articul) {
+               const iikoDish = iikoMenu.products.find((iikoDish) => {
+                  return iikoDish.code ===  dish.iiko_articul
+               })
+               if(iikoDish) {
+                  dish.iiko_id = iikoDish.id
+                  dish.photo_url = iikoDish.imageLinks[0]
+               }
+            }
             await this.dishRepo.checkDish(dish)
          }
       }
@@ -54,7 +69,7 @@ export class ExcelUpdaterService implements OnModuleInit {
    }
 
    async onModuleInit() {
-      await this.parceTable()
+      // await this.parceTable()
    }
 }
 

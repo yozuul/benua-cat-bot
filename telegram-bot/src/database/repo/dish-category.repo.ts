@@ -11,7 +11,27 @@ export class DishCategoryRepo {
       @InjectModel(DishCategory)
       private dishCategoryRepo: typeof DishCategory
    ) {}
-
+   async findByName(name) {
+      const categoriesName = {
+         breakfast: 'Гриль завтрак',
+         main: 'Гриль',
+         garnish: 'Гриль гарнир',
+         sause: 'Гриль (соус)',
+      }
+      return this.dishCategoryRepo.findAll({
+         where: {
+            [Op.and]: [
+                { parent_name: { [Op.iLike]: 'Гриль' } },
+                { sub_name: { [Op.iLike]: categoriesName[name] } },
+            ]
+         }, attributes: ['id']
+      })
+   }
+   async updateCategory(data, id) {
+      await this.dishCategoryRepo.update(data, {
+         where: { id: id  }
+      })
+   }
    async create(parentName, subName) {
       return this.dishCategoryRepo.create({
          parent_name: parentName,

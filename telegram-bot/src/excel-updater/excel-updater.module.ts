@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
-import { ExcelUpdaterService } from './excel-updater.service';
-import { DatabaseModule } from 'src/database/database.module';
+import { Module } from '@nestjs/common'
+
+import { ExcelUpdaterService } from './excel-updater.service'
+import { DatabaseModule } from 'src/database/database.module'
+import { IikoModule } from 'src/iiko/iiko.module'
 
 @Module({
    imports: [
-      DatabaseModule
+      DatabaseModule, IikoModule
    ],
    providers: [ExcelUpdaterService]
 })

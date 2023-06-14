@@ -30,17 +30,6 @@
     "iiko_articul": {
       "type": "string"
     },
-    "photo": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "photo_url": {
       "type": "string"
     },
@@ -52,6 +41,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::category.category"
+    },
+    "iiko_id": {
+      "type": "string"
     }
   }
 }

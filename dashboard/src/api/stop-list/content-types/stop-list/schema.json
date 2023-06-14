@@ -1,21 +1,20 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "stop_lists",
   "info": {
-    "singularName": "category",
-    "pluralName": "categories",
-    "displayName": "Категории",
-    "description": ""
+    "singularName": "stop-list",
+    "pluralName": "stop-lists",
+    "displayName": "Стоп лист"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "parent_name": {
+    "name": {
       "type": "string"
     },
-    "sub_name": {
+    "iiko_id": {
       "type": "string"
     }
   }
