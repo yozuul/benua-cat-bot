@@ -22,7 +22,7 @@ export class UserMenuCoffeeScene {
          'Кофейное меню:',
       )
    }
-   @Hears(USERS_BUTTON.BACK.TEXT)
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.MENU)
    }

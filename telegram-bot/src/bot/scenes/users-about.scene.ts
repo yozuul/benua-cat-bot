@@ -46,7 +46,7 @@ export class UserAboutScene {
          parse_mode: 'HTML'
       })
    }
-   @Hears(USERS_BUTTON.BACK.TEXT)
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }

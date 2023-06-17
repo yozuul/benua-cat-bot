@@ -4,11 +4,6 @@ import { DishCategory } from './dish-category.model';
 
 const { INTEGER, BOOLEAN, STRING } = DataType
 
-interface DishesCategoriesCreationAttrs {
-   closed: boolean
-   reason: string
-}
-
 @Table({ tableName: 'dishes_category_id_links', timestamps: false })
 export class DishCategoryLink extends Model<DishCategoryLink> {
    @ForeignKey(() => Dish)

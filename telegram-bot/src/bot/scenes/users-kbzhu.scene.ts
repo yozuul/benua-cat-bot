@@ -29,9 +29,9 @@ export class UserKbzhuScene {
       )
       await ctx.reply('Укажите название блюда, чтобы узнать его состав и энергетическую ценность')
    }
-   @Hears(USERS_BUTTON.BACK.TEXT)
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.STARTED)
+      ctx.scene.enter(USERS_SCENE.MENU)
    }
    @On('message')
    // (@Sender('id') senderId: number)

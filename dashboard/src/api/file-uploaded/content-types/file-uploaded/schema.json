@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "files_uploaded",
+  "info": {
+    "singularName": "file-uploaded",
+    "pluralName": "files-uploaded",
+    "displayName": "Файлы",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "excel_url": {
+      "type": "string"
+    },
+    "weekly_menu_file": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "excel_table": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

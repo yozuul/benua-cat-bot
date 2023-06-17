@@ -3,34 +3,48 @@ import { Scene, SceneEnter, Hears, On, Ctx, Start, Sender } from 'nestjs-telegra
 
 import { USERS_SCENE, USERS_BUTTON } from '@app/common/constants'
 import { SessionContext } from '@app/common/interfaces'
+
 import { NavigationKeyboard } from '@bot/keyboards'
+import { GuestRepo } from '@app/database/repo'
+import { BotService } from '../bot.service'
 
 @Scene(USERS_SCENE.PROMO)
 export class UserPromoScene {
    constructor(
-      private readonly navigationKeyboard: NavigationKeyboard
+      private guestRepo: GuestRepo,
+      private navigationKeyboard: NavigationKeyboard,
+      private botService: BotService
    ) {}
    @Start()
    async onStart(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.STARTED)
+      await ctx.scene.enter(USERS_SCENE.STARTED)
    }
    @SceneEnter()
-   async onSceneEnter1(@Ctx() ctx: SessionContext) {
-      await ctx.reply('🏷',
-         this.navigationKeyboard.backButton()
+   async onSceneEnter1(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
+      const checkUser = await this.guestRepo.findByTgId(tg_id)
+      await ctx.reply('НОВОСТИ И АКЦИИ',
+         this.navigationKeyboard.newsButton(checkUser.signed_newsletter)
       )
-      await ctx.replyWithPhoto(
-         {
-            source: resolve('../dashboard/public/uploads/medium_1627975108174692185_9c398613cf.jpg'),
-         },
-         {
-            caption: '<b>Это заголовок</b>\nТут текст, но он не сможет поддерживать всё форматирование представленное в редакторе.\nТак в телеграме это работает',
-            parse_mode: 'HTML'
-         }
+      await this.botService.checkNewMessage(tg_id, true)
+   }
+   @Hears(USERS_BUTTON.NEWS.SIGNED.TEXT)
+   async signedNewsLrtters(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
+      await this.guestRepo.toggleNewletterSigned(tg_id, false)
+      const checkUser = await this.guestRepo.findByTgId(tg_id)
+      await ctx.reply('Вы успешно отписались от рассылки',
+         this.navigationKeyboard.newsButton(checkUser.signed_newsletter)
       )
    }
-   @Hears(USERS_BUTTON.BACK.TEXT)
-   leaveSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.STARTED)
+   @Hears(USERS_BUTTON.NEWS.NOT_SIGNED.TEXT)
+   async unSignedNewsLrtters(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
+      await this.guestRepo.toggleNewletterSigned(tg_id, true)
+      const checkUser = await this.guestRepo.findByTgId(tg_id)
+      await ctx.reply('Вы подписались на рассылку',
+         this.navigationKeyboard.newsButton(checkUser.signed_newsletter)
+      )
+   }
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
+   async leaveSceneHandler(@Ctx() ctx: SessionContext) {
+      await ctx.scene.enter(USERS_SCENE.STARTED)
    }
 }

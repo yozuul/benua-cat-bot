@@ -27,7 +27,7 @@ const sessions = new LocalSession({ database: 'session_db.json' })
       IikoModule,
       DatabaseModule,
       ExcelUpdaterModule,
-      BotModule
+      BotModule,
    ],
    controllers: [AppController],
    providers: [AppService],

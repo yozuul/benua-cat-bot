@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Заказы",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "iiko_order_id": {
+      "type": "string"
+    },
+    "guest_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::guest.guest",
+      "inversedBy": "order_id"
+    },
+    "dish_ids": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dish.dish",
+      "mappedBy": "order_id"
+    },
+    "done": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

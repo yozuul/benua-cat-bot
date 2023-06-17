@@ -24,8 +24,8 @@ export class Guest extends Model<Guest> {
    }) phone: string
 
    @Column({
-      type: STRING, allowNull: true, defaultValue: true
-   }) signed_newsletter: string
+      type: BOOLEAN, allowNull: true, defaultValue: true
+   }) signed_newsletter: boolean
 
    @HasMany(() => Cart)
    carts: Cart[];

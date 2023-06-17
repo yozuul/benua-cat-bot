@@ -105,11 +105,15 @@ export class DishRepo {
                   dish_id: dishExist.id
                }, include: [DishCategory],
             })
+            if(!dishCategory) {
+               console.log(dishCategory)
+            }
             const categoryData = {
                parent_name: dish.parent_name,
                sub_name: dish.sub_name
             }
             await this.dishCategoryRepo.updateCategory(categoryData, dishCategory.id)
+
          }
          if(!dishExist) {
             console.log('Добавляем блюдо', dish)

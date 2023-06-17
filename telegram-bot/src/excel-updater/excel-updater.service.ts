@@ -1,19 +1,31 @@
+import { resolve } from 'path'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as XLSX from 'xlsx'
 
-import { DishRepo } from '@app/database/repo'
+import { DishRepo, PanelFilesRepo } from '@app/database/repo'
 import { IikoService } from 'src/iiko/iiko.service'
 
 @Injectable()
 export class ExcelUpdaterService implements OnModuleInit {
    constructor(
       private dishRepo: DishRepo,
-      private iikoService: IikoService
+      private iikoService: IikoService,
+      private panelFilesRepo: PanelFilesRepo
    ) {}
-   async parceTable() {
+   async getFiles() {
+      const allFiles = await this.panelFilesRepo.getFiles()
+      const excelFile = allFiles.find((file) => file.field === 'excel_table')
+      const filePath = resolve('../dashboard/public' + excelFile['file.url'])
+      try {
+         const workbook = XLSX.readFile(filePath)
+         await this.parceTable(workbook)
+      } catch (error) {
+         console.log('Файл не найден:', filePath)
+      }
+   }
+   async parceTable(workbook) {
       const iikoMenu = await this.iikoService.getMenu()
       // console.log(iikoMenu)
-      const workbook = XLSX.readFile('data/all-dishes.xlsx')
       const sheetName = workbook.SheetNames[0]
       // Получаем первый лист рабочей книги
       const sheet = workbook.Sheets[sheetName]
@@ -53,6 +65,7 @@ export class ExcelUpdaterService implements OnModuleInit {
                const iikoDish = iikoMenu.products.find((iikoDish) => {
                   return iikoDish.code ===  dish.iiko_articul
                })
+               console.log(iikoDish)
                if(iikoDish) {
                   dish.iiko_id = iikoDish.id
                   dish.photo_url = iikoDish.imageLinks[0]
@@ -69,6 +82,7 @@ export class ExcelUpdaterService implements OnModuleInit {
    }
 
    async onModuleInit() {
+      // await this.getFiles()
       // await this.parceTable()
    }
 }

@@ -13,19 +13,26 @@ export class DishCategoryRepo {
    ) {}
    async findByName(name) {
       const categoriesName = {
-         breakfast: 'Гриль завтрак',
-         main: 'Гриль',
-         garnish: 'Гриль гарнир',
-         sause: 'Гриль (соус)',
+         omlet: 'Омлеты и яичницы',
+         eggs: 'Яйца пашот',
+         tosts: 'Тосты',
+         meat: 'Мясо и птица',
+         fish: 'Рыба',
+         burger: 'Бургеры',
+         garnish: 'Гарнир',
+         topping: 'Топпинг',
+         vegan: 'Вегетарианские блюда',
+         sause: 'Соус',
       }
-      return this.dishCategoryRepo.findAll({
+      const founded = await this.dishCategoryRepo.findAll({
          where: {
             [Op.and]: [
-                { parent_name: { [Op.iLike]: 'Гриль' } },
-                { sub_name: { [Op.iLike]: categoriesName[name] } },
+                { parent_name: { [Op.iLike]: '%Гриль%' } },
+                { sub_name: { [Op.like]: '%' + categoriesName[name] + '%' } },
             ]
          }, attributes: ['id']
       })
+      return founded
    }
    async updateCategory(data, id) {
       await this.dishCategoryRepo.update(data, {

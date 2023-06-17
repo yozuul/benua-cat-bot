@@ -15,39 +15,33 @@ export class UserMenuScene {
    }
    @SceneEnter()
    async onSceneEnter1(@Ctx() ctx: SessionContext) {
-      await ctx.reply('🍱')
       await ctx.reply(
          'Выберите раздел:',
          this.navigationKeyboard.mainMenu()
       )
    }
-   // 🗓 Еженедельное меню
-   @Hears(USERS_BUTTON.MENU.WEEKLY.TEXT)
-   weeklyMenuSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.MENU_WEEKLY)
-   }
-   // 🗓 Еженедельное меню 2
-   @Hears(USERS_BUTTON.MENU.WEEKLY2.TEXT)
-   weekly2MenuSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.MENU_WEEKLY2)
-   }
-   // 🗓 Дневное меню
-   @Hears(USERS_BUTTON.MENU.DAILY.TEXT)
-   dailyMenuSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.MENU_DAILY)
-   }
-   // 🍖 Гриль меню
+   // Гриль меню
    @Hears(USERS_BUTTON.MENU.GRILL.TEXT)
    grillMenuSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.MENU_GRILL)
    }
-   // ☕️ Кофейное меню
+   // Еженедельное меню
+   @Hears(USERS_BUTTON.MENU.WEEKLY.TEXT)
+   weeklyMenuSceneHandler(@Ctx() ctx: SessionContext) {
+      ctx.scene.enter(USERS_SCENE.MENU_WEEKLY)
+   }
+   // КБЖУ
+   @Hears(USERS_BUTTON.MENU.KBZHU.TEXT)
+   kbzhuMenuSceneHandler(@Ctx() ctx: SessionContext) {
+      ctx.scene.enter(USERS_SCENE.KBZHU)
+   }
+   // Кофейное меню
    @Hears(USERS_BUTTON.MENU.COFFEE.TEXT)
    coffeeMenuSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.MENU_COFFEE)
    }
-   // 👈 Назад
-   @Hears(USERS_BUTTON.BACK.TEXT)
+   // Назад
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }

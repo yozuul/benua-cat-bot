@@ -18,12 +18,20 @@ export class CartRepo {
       const guest = await this.guestRepo.find(tg_id)
       if(guest) {
          cart = await this.cartRepo.findAll({
-            where: {
-               guest_id: guest.id
-            }
+            where: { guest_id: guest.id }
          })
       }
       return cart
+   }
+   async cleanCart(tg_id) {
+      const guest = await this.guestRepo.find(tg_id)
+      try {
+         return this.cartRepo.destroy({
+            where: { guest_id: guest.id }
+         })
+      } catch (error) {
+         console.log('У пользователя нет товаров')
+      }
    }
    async findCart(guest_id) {
       return this.cartRepo.findAll({

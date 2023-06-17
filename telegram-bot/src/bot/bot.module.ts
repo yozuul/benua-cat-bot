@@ -5,17 +5,19 @@ import { BotService } from './bot.service'
 import { BotUpdate } from './bot.update'
 import { NavigationKeyboard } from '@bot/keyboards'
 import {
-   UserStartedScene, UserMenuScene, UserAboutScene, UserMenuWeeklyScene, UserMenuWeekly2Scene, UserPromoScene, UserMenuGrillScene, UserMenuCoffeeScene, UserMenuDailyScene, UserKbzhuScene, UserCartScene
+   UserStartedScene, UserMenuScene, UserAboutScene, UserMenuWeeklyScene, UserPromoScene, UserMenuGrillScene, UserMenuCoffeeScene, UserMenuDailyScene, UserKbzhuScene, UserCartScene, UserMenuGrillOrderScene
 } from './scenes'
+import { IikoModule } from 'src/iiko/iiko.module'
 
 @Module({
    imports: [
-      DatabaseModule
+      DatabaseModule, IikoModule
    ],
    providers: [
       BotService, BotUpdate,
       UserStartedScene, UserMenuScene, UserAboutScene, UserKbzhuScene, UserPromoScene, UserCartScene,
-      UserMenuGrillScene, UserMenuWeeklyScene, UserMenuWeekly2Scene, UserMenuDailyScene, UserMenuCoffeeScene,
+      UserMenuGrillScene, UserMenuWeeklyScene, UserMenuDailyScene, UserMenuCoffeeScene,
+      UserMenuGrillOrderScene,
       NavigationKeyboard
    ]
 })

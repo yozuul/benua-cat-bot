@@ -2,14 +2,18 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
 
-import { Cart, Dish, DishCategory, DishCategoryLink, Files, FilesRelated, Guest } from './models'
-import { CartRepo, DishCategoryRepo, DishRepo, GuestRepo, PanelFilesRepo } from './repo'
+import {
+   Cart, Dish, DishCategory, DishCategoryLink, DishOrderIdLink, Files, FilesRelated, FilesUploaded, Guest, NewsLetter, Order, OrderGuestIdLink
+} from './models'
+import {
+   CartRepo, DishCategoryRepo, DishRepo, GuestRepo, NewsLetterRepo, OrdersRepo, PanelFilesRepo
+} from './repo'
 
 const models = [
-   Dish, Guest, Cart, DishCategory, DishCategoryLink, Files, FilesRelated
+   Dish, Guest, Cart, DishCategory, DishCategoryLink, Files, FilesRelated, Order, OrderGuestIdLink, DishOrderIdLink, FilesUploaded, NewsLetter
 ]
 const repositories = [
-   DishRepo, DishCategoryRepo, PanelFilesRepo, GuestRepo, CartRepo
+   DishRepo, DishCategoryRepo, PanelFilesRepo, GuestRepo, CartRepo, OrdersRepo, NewsLetterRepo
 ]
 @Module({
    imports: [

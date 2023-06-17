@@ -4,7 +4,8 @@
   "info": {
     "singularName": "mail",
     "pluralName": "mails",
-    "displayName": "Рассылки"
+    "displayName": "Рассылки",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,14 +19,19 @@
       "type": "richtext"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "sended": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

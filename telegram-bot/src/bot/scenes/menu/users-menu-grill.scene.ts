@@ -13,35 +13,6 @@ export class UserMenuGrillScene {
       private dishRepo: DishRepo,
       private cartRepo: CartRepo,
    ) {}
-   // Завтрак (до 12:00)
-   @Hears(USERS_BUTTON.MENU_GRILL.BREAKFAST.TEXT)
-   async getBreakfast(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      const dishes = await this.dishRepo.getByCategory('breakfast')
-      const carts = await this.cartRepo.findCartByTgId(tg_id)
-      generateGrillMenu(dishes, carts, ctx)
-
-   }
-   // Основные блюда
-   @Hears(USERS_BUTTON.MENU_GRILL.MAIN.TEXT)
-   async getMain(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      const dishes = await this.dishRepo.getByCategory('main')
-      const carts = await this.cartRepo.findCartByTgId(tg_id)
-      generateGrillMenu(dishes, carts, ctx)
-   }
-   // Гарниры
-   @Hears(USERS_BUTTON.MENU_GRILL.GARNISH.TEXT)
-   async getGarnish(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      const dishes = await this.dishRepo.getByCategory('garnish')
-      const carts = await this.cartRepo.findCartByTgId(tg_id)
-      generateGrillMenu(dishes, carts, ctx)
-   }
-   // Соусы
-   @Hears(USERS_BUTTON.MENU_GRILL.SAUSE.TEXT)
-   async getSause(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      const dishes = await this.dishRepo.getByCategory('sause')
-      const carts = await this.cartRepo.findCartByTgId(tg_id)
-      generateGrillMenu(dishes, carts, ctx)
-   }
    // --------------
    @Start()
    async onStart(@Ctx() ctx: SessionContext) {
@@ -53,11 +24,11 @@ export class UserMenuGrillScene {
          this.navigationKeyboard.backButton()
       )
       await ctx.reply(
-         'Выберите раздел:',
+         'Выберите гриль меню:',
          this.navigationKeyboard.grillMenu()
       )
    }
-   @Hears(USERS_BUTTON.BACK.TEXT)
+   @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    async leaveSceneHandler(@Ctx() ctx: SessionContext) {
       await ctx.scene.enter(USERS_SCENE.MENU)
    }

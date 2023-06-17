@@ -24,6 +24,12 @@
     "signed_newsletter": {
       "type": "boolean",
       "default": true
+    },
+    "order_id": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "guest_id"
     }
   }
 }

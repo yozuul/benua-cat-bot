@@ -11,6 +11,33 @@ export class GuestRepo {
       private guestRepo: typeof Guest,
    ) {}
 
+   async toggleNewletterSigned(tg_id, action) {
+      const user = await this.guestRepo.findOne({
+         where: {
+            tg_id: tg_id.toString()
+         }
+      })
+      user.signed_newsletter = action
+      await user.save()
+   }
+
+   async findAllForNewsletter() {
+      return this.guestRepo.findAll({
+         where: { signed_newsletter: true }
+      })
+   }
+   async findById(guestId) {
+      return await this.guestRepo.findOne({
+         where: { id: guestId }
+      })
+   }
+   async findByTgId(tg_id) {
+      return await this.guestRepo.findOne({
+         where: {
+            tg_id: tg_id.toString()
+         }
+      })
+   }
    async find(tg_id) {
       return await this.guestRepo.findOne({
          where: {

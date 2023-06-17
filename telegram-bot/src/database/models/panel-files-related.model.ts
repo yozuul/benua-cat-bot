@@ -24,6 +24,10 @@ export class FilesRelated extends Model<FilesRelated> {
       type: INTEGER,
    }) file_id: number;
 
+   @Column({
+      type: INTEGER, allowNull: false
+   }) related_id: number
+
    @BelongsTo(() => Files)
    file: Files;
 }

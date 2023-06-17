@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { writeFile } from 'node:fs/promises'
 import { Buffer } from 'node:buffer'
 import { Injectable, OnModuleInit } from '@nestjs/common'
@@ -12,19 +13,74 @@ export class IikoService implements OnModuleInit {
    private iikoAccessToke
 
    async onModuleInit() {
+      // this.downloadFile()
+      // await this.auth()
+      // this.createOrder()
+      // this.paymentsTypes()
+      // this.getTerminals()
+      // this.setWebhookSettings()
       // this.panelFilesRepo.getFiles()
       // this.getCustomersCategories()
       // this.getWebhookSettings()
       // this.getMenu()
    }
 
+   async getFile() {
 
-// IikoController eventType StopListUpdate
-// IikoController eventInfo {
-//   terminalGroupsStopListsUpdates: [ { id: '6ca8d477-17ce-4281-a17e-81b6926a0ad7', isFull: false } ]
-// }
+   }
 
-   async test() {
+   async createOrder(cartItems, summ) {
+      await this.auth()
+      const url = 'https://api-ru.iiko.services/api/1/deliveries/create'
+
+      const order = {
+        organizationId: process.env.IIKO_ORGANIZATION_ID,
+        terminalGroupId: process.env.IIKO_GRILL_TERMINAL_ID,
+        createOrderSettings: {
+          mode: 'Async',
+        },
+        order: {
+          items: cartItems,
+          payments: [
+            {
+              paymentTypeKind: 'Cash',
+              sum: summ.toString(),
+              paymentTypeId: '09322f46-578a-d210-add7-eec222a08871',
+            },
+          ],
+          phone: '+70001112233',
+          orderTypeId: '5b1508f9-fe5b-d6af-cb8d-043af587d5c2',
+          comment: "ЗАКАЗ С БОТА",
+          guests: {
+            count: 1,
+            splitBetweenPersons: "false",
+          },
+          customer: {
+            name: "TESTORDER",
+            surname: "CLEAR.bat",
+          },
+        },
+      };
+
+      try {
+         const response = await fetch(url, {
+            headers: this.authHeader,
+            method: 'POST',
+            body: JSON.stringify(order)
+         });
+         const data = await response.json()
+         console.log('data', data)
+         const orderId = data.orderInfo.id
+         // console.log(data.paymentTypes[1])
+         // await this.toFile(data)
+         return orderId
+       } catch (error) {
+         console.error('ERROR getTerminals', error)
+       }
+   }
+
+   async paymentsTypes() {
+      await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/payment_types'
       try {
          const response = await fetch(url, {
@@ -43,64 +99,45 @@ export class IikoService implements OnModuleInit {
        }
    }
 
-   async getCustomersCategories() {
-      const url = 'https://api-ru.iiko.services/api/1/loyalty/iiko/customer_category'
-      try {
-         const response = await fetch(url, {
-            headers: this.authHeader,
-            method: 'POST',
-            body: JSON.stringify({
-               organizationId: process.env.IIKO_ORGANIZATION_ID
-            })
-         });
-         const data = await response.json()
-         console.log(data)
-         // await this.toFile(data)
-         return data
-       } catch (error) {
-         console.error('ERROR getTerminals', error)
-       }
-   }
-
    async setWebhookSettings() {
+      await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/webhooks/update_settings'
-      const webHooksUri = 'https://1ed6-212-32-207-0.ngrok-free.app/iiko/test'
+      const webHooksUri = 'https://2e65-212-32-192-113.ngrok-free.app/iiko/test'
       try {
          const response = await fetch(url, {
             headers: this.authHeader,
             method: 'POST',
             body: JSON.stringify({
-               "organizationId": process.env.IIKO_ORGANIZATION_ID,
-               "webHooksUri": webHooksUri,
-               "authToken": process.env.IIKO_TOKEN,
-               "webHooksFilter": {
-                 "deliveryOrderFilter": {
-                   "orderStatuses": [
-                     "Unconfirmed"
+               organizationId: process.env.IIKO_ORGANIZATION_ID,
+               webHooksUri: webHooksUri,
+               authToken: process.env.IIKO_TOKEN,
+               webHooksFilter: {
+                 deliveryOrderFilter: {
+                   orderStatuses: [
+                     'Unconfirmed', 'WaitCooking', 'ReadyForCooking', 'CookingStarted', 'CookingCompleted', 'Waiting', 'OnWay', 'Delivered', 'Closed', 'Cancelled'
                    ],
-                   "itemStatuses": [
-                     "Added"
+                   itemStatuses: [
+                     'Added', 'PrintedNotCooking', 'CookingStarted', 'CookingCompleted', 'Served'
                    ],
-                   "errors": true
+                   errors: true
                  },
-                 "tableOrderFilter": {
-                   "orderStatuses": [
-                     "New"
+                 tableOrderFilter: {
+                   orderStatuses: [
+                     'New'
                    ],
-                   "itemStatuses": [
-                     "Added"
+                   itemStatuses: [
+                     'Added'
                    ],
-                   "errors": true
+                   errors: true
                  },
-                 "reserveFilter": {
-                   "updates": true,
-                   "errors": true
+                 reserveFilter: {
+                   updates: true, "errors": true
                  },
-                 "stopListUpdateFilter": {
-                   "updates": true
+                 stopListUpdateFilter: {
+                   updates: true
                  },
-                 "personalShiftFilter": {
-                   "updates": true
+                 personalShiftFilter: {
+                   updates: true
                  }
                }
              })
@@ -173,6 +210,7 @@ export class IikoService implements OnModuleInit {
    }
 
    async getTerminals() {
+      await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/terminal_groups'
       try {
          const response = await fetch(url, {
@@ -183,30 +221,10 @@ export class IikoService implements OnModuleInit {
             })
          });
          const data = await response.json()
-         console.log(data)
+         console.log(data.terminalGroups[0])
          return data
        } catch (error) {
          console.error('ERROR getTerminals', error)
-       }
-   }
-   async getOrganization() {
-      const url = 'https://api-ru.iiko.services/api/1/organizations'
-      try {
-         const response = await fetch(url, {
-            headers: {
-               'Content-Type': 'application/json; charset=utf-8',
-               Authorization: `Bearer ${this.iikoAccessToke}`
-            },
-            method: 'POST',
-            body: JSON.stringify({
-               Authorization: `Bearer ${this.iikoAccessToke}`
-            })
-         });
-         const data = await response.json()
-         console.log(data)
-         return data
-       } catch (error) {
-         console.error('ERROR getOrganization', error)
        }
    }
 
@@ -224,6 +242,7 @@ export class IikoService implements OnModuleInit {
          });
          const data = await response.json()
          this.iikoAccessToke = data.token
+         console.log(this.iikoAccessToke)
          return data
        } catch (error) {
          console.error('ERROR auth', error)
@@ -246,4 +265,65 @@ export class IikoService implements OnModuleInit {
          console.error(err);
        }
    }
+
+
+   async getOrganization() {
+      const url = 'https://api-ru.iiko.services/api/1/organizations'
+      try {
+         const response = await fetch(url, {
+            headers: {
+               'Content-Type': 'application/json; charset=utf-8',
+               Authorization: `Bearer ${this.iikoAccessToke}`
+            },
+            method: 'POST',
+            body: JSON.stringify({
+               Authorization: `Bearer ${this.iikoAccessToke}`
+            })
+         });
+         const data = await response.json()
+         console.log(data)
+         return data
+       } catch (error) {
+         console.error('ERROR getOrganization', error)
+       }
+   }
+
+   async getCustomersCategories() {
+      const url = 'https://api-ru.iiko.services/api/1/loyalty/iiko/customer_category'
+      try {
+         const response = await fetch(url, {
+            headers: this.authHeader,
+            method: 'POST',
+            body: JSON.stringify({
+               organizationId: process.env.IIKO_ORGANIZATION_ID
+            })
+         });
+         const data = await response.json()
+         console.log(data)
+         // await this.toFile(data)
+         return data
+       } catch (error) {
+         console.error('ERROR getTerminals', error)
+       }
+   }
+
+//    async downloadFile() {
+//       const fileName = 'document.pdf';  // replace with your filename
+//       const downloadPath = `https://cloud-api.yandex.net/v1/disk/resources/download?path=01.jpg`;
+//
+//       try {
+//          const response = await fetch(downloadPath, {
+//             headers: { 'Authorization': `OAuth ${process.env.YANDEX_DISK_AUTH_TOKEN}` }
+//          });
+//          const jsonResponse = await response.json();
+//          if (jsonResponse.href) {
+//             const fileResponse = await fetch(jsonResponse.href);
+//             // then you can do whatever you want with the file, e.g. save it somewhere
+//          } else {
+//             console.log("Error downloading file:", jsonResponse.error, jsonResponse.message);
+//          }
+//       } catch (error) {
+//          console.log('Ошибка авторизации', error);
+//       }
+//    }
 }
