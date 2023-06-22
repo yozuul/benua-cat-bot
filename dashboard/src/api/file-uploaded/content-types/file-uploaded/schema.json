@@ -12,23 +12,52 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "excel_url": {
-      "type": "string"
-    },
-    "weekly_menu_file": {
+    "grill_menu_image": {
       "type": "media",
       "multiple": false,
       "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "weekly_menu_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "coffe_menu_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "excel_table": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "hall_scheme_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "dayly_menu_image": {
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ]
-    },
-    "excel_table": {
-      "allowedTypes": [
-        "files"
       ],
       "type": "media",
       "multiple": false

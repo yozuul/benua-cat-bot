@@ -1,23 +1,13 @@
 {
   "sessions": [
     {
-      "id": "1884297416:1884297416",
-      "data": {
-        "__scenes": {
-          "current": "USER_MENU_SCENE",
-          "state": {}
-        },
-        "cart": [],
-        "trash": []
-      }
-    },
-    {
       "id": "258644975:258644975",
       "data": {
         "__scenes": {
           "current": "USER_STARTED_SCENE",
           "state": {}
         },
+        "trash": [],
         "cart": []
       }
     },
@@ -25,9 +15,22 @@
       "id": "155089698:155089698",
       "data": {
         "__scenes": {
-          "current": "USER_CART_SCENE",
+          "current": "USER_KBZHU_SCENE",
           "state": {}
-        }
+        },
+        "trash": [],
+        "cart": []
+      }
+    },
+    {
+      "id": "1884297416:1884297416",
+      "data": {
+        "__scenes": {
+          "current": "USER_STARTED_SCENE",
+          "state": {}
+        },
+        "trash": [],
+        "cart": []
       }
     }
   ]

@@ -4,10 +4,12 @@ import { Scene, SceneEnter, Hears, On, Ctx, Start, Sender } from 'nestjs-telegra
 import { USERS_SCENE, USERS_BUTTON } from '@app/common/constants';
 import { SessionContext } from '@app/common/interfaces';
 import { NavigationKeyboard } from '@bot/keyboards';
+import { FilesRelatedMorph } from '@app/database/repo';
 
 @Scene(USERS_SCENE.MENU_WEEKLY)
 export class UserMenuWeeklyScene {
    constructor(
+      private filesReletedMorphs: FilesRelatedMorph,
       private readonly navigationKeyboard: NavigationKeyboard
    ) {}
    @Start()
@@ -15,26 +17,35 @@ export class UserMenuWeeklyScene {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }
    @SceneEnter()
-   async onSceneEnter(@Ctx() ctx: SessionContext) {
-      await ctx.reply(
-         'Меню на неделю:',
-         this.navigationKeyboard.backButton()
+   async onSceneEnter1(@Ctx() ctx: SessionContext) {
+      let fileUrl = null
+      await ctx.reply('МЕНЮ НЕДЕЛИ',
+         this.navigationKeyboard.mainMenu()
       )
-      // await ctx.replyWithPhoto({
-      //    source: resolve('../dashboard/public/uploads/1_3f130403b9.png')
-      // })
-      // await ctx.replyWithPhoto({
-      //    source: resolve('../dashboard/public/uploads/2_4a814e2c52.png')
-      // })
-      // await ctx.replyWithPhoto({
-      //    source: resolve('../dashboard/public/uploads/3_997d06ef8f.png')
-      // })
-      // await ctx.replyWithPhoto({
-      //    source: resolve('../dashboard/public/uploads/4_3be7c754c4.png')
-      // })
-      // await ctx.replyWithPhoto({
-      //    source: resolve('../dashboard/public/uploads/5_bd1ed10dbf.png')
-      // })
+      const fileData = await this.filesReletedMorphs.findFileUrlByFieldName('weekly_menu_image')
+      if(fileData?.url) {
+         fileUrl = '../dashboard/public' + fileData.url
+      } else {
+         ctx.reply('Данные не загружены')
+      }
+      if(fileUrl) {
+         try {
+            await ctx.replyWithPhoto({ source: fileUrl })
+         } catch (error) {
+            console.log(error)
+            console.log('Ошибка отправки фотографии')
+            try {
+               await ctx.telegram.sendMessage(
+                  258644975, 'Рамзер изображения слишком большой'
+               )
+               await ctx.telegram.sendMessage(
+                  1884297416, 'Рамзер изображения слишком большой'
+               )
+            } catch (error) {
+               console.log('error')
+            }
+         }
+      }
    }
    @Hears('🗓 Еженедельное меню')
    weeklyMenuSceneHandler(@Ctx() ctx: SessionContext) {

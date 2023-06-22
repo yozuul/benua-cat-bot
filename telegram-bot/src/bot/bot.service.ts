@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { InjectBot } from 'nestjs-telegraf'
 import { Telegraf } from 'telegraf'
-import { GuestRepo, PanelFilesRepo } from '@app/database/repo'
+import { GuestRepo, FilesRelatedMorph } from '@app/database/repo'
 import { NewsLetterRepo } from '@app/database/repo/news-letters.repo'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import { Cron } from '@nestjs/schedule'
@@ -12,21 +12,20 @@ export class BotService implements OnModuleInit {
       @InjectBot()
       private bot: Telegraf,
       private guestRepo: GuestRepo,
+      private filesReletedMorphs: FilesRelatedMorph,
       private newsLettersRepo: NewsLetterRepo,
-      private filesReletedMorphs: PanelFilesRepo,
    ) {}
 
    @Cron('0 * * * * *')
    async checkNewsletters() {
+      await this.sendNewsletters()
    }
 
    async sendNewsletters() {
       const guests = await this.guestRepo.findAllForNewsletter()
       if(guests.length > 0) {
          for (let guest of guests) {
-            if(guest.name === 'Den') {
-               await this.checkNewMessage(guest.tg_id)
-            }
+            await this.checkNewMessage(guest.tg_id)
          }
       }
    }
@@ -106,6 +105,6 @@ export class BotService implements OnModuleInit {
    }
 
    onModuleInit() {
-      this.sendNewsletters()
+      // this.sendNewsletters()
    }
 }

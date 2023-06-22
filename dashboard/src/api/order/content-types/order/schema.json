@@ -30,6 +30,9 @@
     "done": {
       "type": "boolean",
       "default": false
+    },
+    "iiko_order_num": {
+      "type": "integer"
     }
   }
 }

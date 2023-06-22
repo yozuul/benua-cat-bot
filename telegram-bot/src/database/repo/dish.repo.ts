@@ -4,6 +4,7 @@ import { Op } from 'sequelize'
 
 import { Dish, DishCategory, DishCategoryLink } from '../models'
 import { DishCategoryRepo } from './dish-category.repo'
+import { StopListRepo } from './stop-list.repo'
 
 @Injectable()
 export class DishRepo {
@@ -12,7 +13,8 @@ export class DishRepo {
       private dishRepo: typeof Dish,
       @InjectModel(DishCategoryLink)
       private dishCatLinkRepo: typeof DishCategoryLink,
-      private dishCategoryRepo: DishCategoryRepo
+      private dishCategoryRepo: DishCategoryRepo,
+      private stopListRepo: StopListRepo,
    ) {}
 
    async getByCategory(catName) {
@@ -26,6 +28,9 @@ export class DishRepo {
             raw: true
          })
          for (let dish of foundedDishes) {
+            const iikoId = dish['dish.iiko_id']
+            const checkStopList = await this.stopListRepo.checkStopListItem(iikoId)
+            if(checkStopList) return
             dishes.push({
                name: dish['dish.name'],
                ingredients: dish['dish.ingredients'],
@@ -33,7 +38,7 @@ export class DishRepo {
                weight: dish['dish.weight'],
                price: dish['dish.price'],
                photo: dish['dish.photo_url'],
-               iiko_id: dish['dish.iiko_id'],
+               iiko_id: iikoId,
                dish_id: dish['dish_id'],
             })
          }
@@ -100,19 +105,28 @@ export class DishRepo {
                   id: dishExist.id
                }
             })
-            const { dishCategory } = await this.dishCatLinkRepo.findOne({
-               where: {
-                  dish_id: dishExist.id
-               }, include: [DishCategory],
-            })
-            if(!dishCategory) {
-               console.log(dishCategory)
-            }
-            const categoryData = {
-               parent_name: dish.parent_name,
-               sub_name: dish.sub_name
-            }
-            await this.dishCategoryRepo.updateCategory(categoryData, dishCategory.id)
+            await this.dishCatLinkRepo.update(
+               { category_id: categoryId },
+               { where: { dish_id: dishExist.id }}
+            )
+
+            // const existCatLink = await this.dishCatLinkRepo.findOne({
+            //    where: {
+            //       dish_id: dishExist.id
+            //    }
+            // })
+            // existCatLink.category_id = categoryId
+            // await existCatLink.save()
+            // const { dishCategory } = await this.dishCatLinkRepo.findOne({
+            //    where: {
+            //       dish_id: dishExist.id
+            //    }, include: [DishCategory],
+            // })
+            // const categoryData = {
+            //    parent_name: dish.parent_name,
+            //    sub_name: dish.sub_name
+            // }
+            // await this.dishCategoryRepo.updateCategory(categoryData, dishCategory.id)
 
          }
          if(!dishExist) {
@@ -136,6 +150,11 @@ export class DishRepo {
    async findById(id) {
       return this.dishRepo.findOne({
          where: { id: id }
+      })
+   }
+   async findByIiikoId(iiko_id) {
+      return this.dishRepo.findOne({
+         where: { iiko_id: iiko_id }
       })
    }
 }

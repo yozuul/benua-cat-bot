@@ -3,42 +3,66 @@ import { writeFile } from 'node:fs/promises'
 import { Buffer } from 'node:buffer'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 
-import { PanelFilesRepo } from '@app/database/repo'
+import { OrdersRepo, StopListRepo } from '@app/database/repo'
 
 @Injectable()
 export class IikoService implements OnModuleInit {
    constructor(
-      private panelFilesRepo: PanelFilesRepo
+      private stopListRepo: StopListRepo,
+      private ordersRepo: OrdersRepo,
    ) {}
    private iikoAccessToke
 
+
+   async testIiikoOrderUpdate() {
+      // await this.ordersRepo.updateOrderNumber('06ef0c20-f32f-4d98-910c-ebe4c2230e74', 99)
+   }
+
    async onModuleInit() {
+      // this.setWebhookSettings()
+      // this.testIiikoOrderUpdate()
+      // 6ca8d477-17ce-4281-a17e-81b6926a0ad7
+      // await this.stopList()
+      // this.getOrderNumber('06ef0c20-f32f-4d98-910c-ebe4c2230e74')
       // this.downloadFile()
       // await this.auth()
       // this.createOrder()
       // this.paymentsTypes()
       // this.getTerminals()
-      // this.setWebhookSettings()
       // this.panelFilesRepo.getFiles()
       // this.getCustomersCategories()
       // this.getWebhookSettings()
       // this.getMenu()
    }
 
-   async getFile() {
-
+   async getOrderNumber(iikoUUID) {
+      await this.auth()
+      const url = 'https://api-ru.iiko.services/api/1/deliveries/by_id'
+      try {
+         const response = await fetch(url, {
+            headers: this.authHeader,
+            method: 'POST',
+            body: JSON.stringify({
+               organizationId: process.env.IIKO_ORGANIZATION_ID,
+               orderIds: [iikoUUID],
+            })
+         });
+         const data = await response.json()
+         console.log(data)
+         // await this.toFile(data)
+         return data
+       } catch (error) {
+         console.error('ERROR getTerminals', error)
+       }
    }
 
-   async createOrder(cartItems, summ) {
+   async createOrder(cartItems, summ, guest) {
       await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/deliveries/create'
-
       const order = {
         organizationId: process.env.IIKO_ORGANIZATION_ID,
         terminalGroupId: process.env.IIKO_GRILL_TERMINAL_ID,
-        createOrderSettings: {
-          mode: 'Async',
-        },
+        createOrderSettings: { mode: 'Async' },
         order: {
           items: cartItems,
           payments: [
@@ -56,12 +80,10 @@ export class IikoService implements OnModuleInit {
             splitBetweenPersons: "false",
           },
           customer: {
-            name: "TESTORDER",
-            surname: "CLEAR.bat",
-          },
-        },
-      };
-
+            name: guest.name,
+          }
+        }
+      }
       try {
          const response = await fetch(url, {
             headers: this.authHeader,
@@ -69,8 +91,8 @@ export class IikoService implements OnModuleInit {
             body: JSON.stringify(order)
          });
          const data = await response.json()
-         console.log('data', data)
          const orderId = data.orderInfo.id
+         // const orderNum = await this.getOrderNumber(orderId)
          // console.log(data.paymentTypes[1])
          // await this.toFile(data)
          return orderId
@@ -102,7 +124,7 @@ export class IikoService implements OnModuleInit {
    async setWebhookSettings() {
       await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/webhooks/update_settings'
-      const webHooksUri = 'https://2e65-212-32-192-113.ngrok-free.app/iiko/test'
+      const webHooksUri = 'https://a7fe-95-67-153-216.ngrok-free.app/iiko/test'
       try {
          const response = await fetch(url, {
             headers: this.authHeader,
@@ -171,7 +193,8 @@ export class IikoService implements OnModuleInit {
    }
 
    async stopList() {
-      console.log(process.env.IIKO_ORGANIZATION_ID)
+      await this.auth()
+      const grillTerminal = '6ca8d477-17ce-4281-a17e-81b6926a0ad7'
       const url = 'https://api-ru.iiko.services/api/1/stop_lists'
       try {
          const response = await fetch(url, {
@@ -182,9 +205,12 @@ export class IikoService implements OnModuleInit {
             })
          });
          const data = await response.json()
-         console.log(data.terminalGroupStopLists[0].items[0])
-         // await this.toFile(data)
-         return data
+         const stopList = data.terminalGroupStopLists[0].items
+         const getGrillItems = stopList.find((terminal) => {
+            return terminal.terminalGroupId === grillTerminal
+         })
+         await this.stopListRepo.updateStopList(getGrillItems)
+         return getGrillItems
        } catch (error) {
          console.error('ERROR getTerminals', error)
        }
@@ -266,7 +292,6 @@ export class IikoService implements OnModuleInit {
        }
    }
 
-
    async getOrganization() {
       const url = 'https://api-ru.iiko.services/api/1/organizations'
       try {
@@ -307,23 +332,4 @@ export class IikoService implements OnModuleInit {
        }
    }
 
-//    async downloadFile() {
-//       const fileName = 'document.pdf';  // replace with your filename
-//       const downloadPath = `https://cloud-api.yandex.net/v1/disk/resources/download?path=01.jpg`;
-//
-//       try {
-//          const response = await fetch(downloadPath, {
-//             headers: { 'Authorization': `OAuth ${process.env.YANDEX_DISK_AUTH_TOKEN}` }
-//          });
-//          const jsonResponse = await response.json();
-//          if (jsonResponse.href) {
-//             const fileResponse = await fetch(jsonResponse.href);
-//             // then you can do whatever you want with the file, e.g. save it somewhere
-//          } else {
-//             console.log("Error downloading file:", jsonResponse.error, jsonResponse.message);
-//          }
-//       } catch (error) {
-//          console.log('Ошибка авторизации', error);
-//       }
-//    }
 }

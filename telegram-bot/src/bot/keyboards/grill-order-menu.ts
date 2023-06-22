@@ -19,7 +19,7 @@ export function grillMenuKeyboard(menu) {
   }, []);
   keyboard.push([
     {
-      text: 'В корзину',
+      text: '🛒 В корзину',
       callback_data: 'to_cart_action',
     },
   ]);
@@ -29,4 +29,3 @@ export function grillMenuKeyboard(menu) {
     },
   };
 }
-

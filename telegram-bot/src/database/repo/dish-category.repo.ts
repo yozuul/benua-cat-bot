@@ -13,6 +13,8 @@ export class DishCategoryRepo {
    ) {}
    async findByName(name) {
       const categoriesName = {
+         breakfast: 'Завтрак',
+         all: 'Гриль',
          omlet: 'Омлеты и яичницы',
          eggs: 'Яйца пашот',
          tosts: 'Тосты',
@@ -49,8 +51,8 @@ export class DishCategoryRepo {
       return this.dishCategoryRepo.findOrCreate({
          where: {
             [Op.and]: [
-               { parent_name: dish.parent_name },
-               { sub_name: dish.sub_name },
+               { parent_name: dish.parent_name.trim() },
+               { sub_name: dish.sub_name.trim() },
             ]
          },
          defaults: {

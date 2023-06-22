@@ -125,6 +125,4 @@ export class BotUpdate {
    async cartMenuSceneHandler(@Ctx() ctx: SessionContext) {
       await ctx.scene.enter(USERS_SCENE.CART)
    }
-
-
 }

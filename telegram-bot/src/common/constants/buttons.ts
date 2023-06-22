@@ -4,10 +4,36 @@ export const USERS_BUTTON =  {
          TEXT: 'Назад', ACTION: 'back_action'
       },
       CART: {
-         TEXT: 'Корзина', ACTION: 'go_to_cart_action'
+         TEXT: '🛒 Корзина', ACTION: 'go_to_cart_action'
       },
    },
    STARTED: {
+      GRILL_MENU_ORDER: {
+         TEXT: 'Заказать гриль', ACTION: 'grill_menu_orders_action'
+      },
+      FEEDBACK: {
+         TEXT: 'Оставить отзыв', ACTION: 'feedback_action'
+      },
+      KBZHU: {
+         TEXT: 'КБЖУ', ACTION: 'kbzhu_action'
+      },
+      MENU: {
+         TEXT: 'Меню', ACTION: 'menu_action'
+      },
+      PROMO: {
+         TEXT: 'Новинки и акции', ACTION: 'action_action'
+      },
+      PROMO2: {
+         TEXT: 'Обратная связь https://t.me/awsdfasfasf', ACTION: 'action_action'
+      },
+      ABOUT: {
+         TEXT: 'О нас', ACTION: 'about_action'
+      },
+      CART: {
+         TEXT: '🛒 Корзина', ACTION: 'go_to_cart_action'
+      },
+   },
+   STARTED_OLD: {
       MENU: {
          TEXT: 'Меню', ACTION: 'about_action'
       },
@@ -21,36 +47,36 @@ export const USERS_BUTTON =  {
          TEXT: 'Новости и акции', ACTION: 'action_action'
       },
       CART: {
-         TEXT: 'Корзина', ACTION: 'go_to_cart_action'
+         TEXT: '🛒 Корзина', ACTION: 'go_to_cart_action'
       },
    },
    MENU: {
-      GRILL: {
-         TEXT: 'Гриль меню', ACTION: 'grill_menu_action'
-      },
       WEEKLY: {
-         TEXT: 'Еженедельное меню', ACTION: 'weekly_menu_action'
+         TEXT: 'Меню недели', ACTION: 'weekly_menu_action'
       },
-      KBZHU: {
-         TEXT: 'КБЖУ', ACTION: 'kbzhu_action'
+      DAYLY: {
+         TEXT: 'Меню на день', ACTION: 'dayly_menu_action'
       },
-      COFFEE: {
-         TEXT: 'Кофе и горячие напитки', ACTION: 'coffee_menu_action'
+      GRILL: {
+         TEXT: 'Гриль', ACTION: 'grill_menu_action'
       },
-      GRILL_MENU_ORDER: {
-         TEXT: 'Заказ на гриле', ACTION: 'action_action'
+      GRILL_BREAKFAST: {
+         TEXT: 'Гриль завтрак', ACTION: 'grill_menu_action'
       },
-      CART: {
-         TEXT: 'Корзина', ACTION: 'go_to_cart_action'
-      },
-      BACK: {
-         TEXT: 'Назад', ACTION: 'back_menu_action'
+      DRINKS: {
+         TEXT: 'Напитки', ACTION: 'coffee_menu_action'
       },
    },
+
    MENU_GRILL: {
-      // BREAKFAST: {
-      //    TEXT: 'Завтрак (до 12:00)', ACTION: 'menu_grill_breakfast'
-      // },
+      BREAKFAST: {
+         TEXT: 'Завтрак (до 12:00)', ACTION: 'menu_grill_breakfast'
+      },
+      ALL_GRILL: {
+         TEXT: 'Меню гриль', ACTION: 'menu_grill_all'
+      },
+   },
+   INLINE_GRILL_BREAKFAST: {
       OMLET: {
          TEXT: 'Омлеты и яичницы ', ACTION: 'menu_grill_omlet'
       },
@@ -60,6 +86,11 @@ export const USERS_BUTTON =  {
       TOSTS: {
          TEXT: 'Тосты ', ACTION: 'menu_grill_tosts'
       },
+      TOPPING: {
+         TEXT: 'Топпинг ', ACTION: 'menu_grill_topping'
+      },
+   },
+   INLINE_GRILL_MAIN: {
       MEAT: {
          TEXT: 'Мясо и птица ', ACTION: 'menu_grill_meat'
       },
@@ -72,9 +103,6 @@ export const USERS_BUTTON =  {
       GARNISH: {
          TEXT: 'Гарнир', ACTION: 'menu_grill_garnish'
       },
-      TOPPING: {
-         TEXT: 'Топпинг ', ACTION: 'menu_grill_topping'
-      },
       VEGAN: {
          TEXT: 'Вегетарианские блюда ', ACTION: 'menu_grill_vegan'
       },
@@ -83,14 +111,25 @@ export const USERS_BUTTON =  {
       },
    },
    ABOUT: {
-      TEXT: 'Схема зала', ACTION: 'scheme_action'
+      MAIN: {
+         TEXT: 'Общество чистых тарелок', ACTION: 'scheme_action'
+      },
+      PRICE: {
+         TEXT: 'Как читать ценник', ACTION: 'scheme_action'
+      },
+      OPROS: {
+         TEXT: 'Опрос удовлетворённости 2023', ACTION: 'scheme_action'
+      },
+      POSTERS: {
+         TEXT: 'Галерея постеров', ACTION: 'scheme_action'
+      },
    },
    NEWS: {
       SIGNED: {
-         TEXT: 'Отписаться от рассылки', ACTION: 'signed_for_newsletter'
+         TEXT: 'Подписаться на рассылку', ACTION: 'signed_for_newsletter'
       },
       NOT_SIGNED: {
-         TEXT: 'Подписаться на рассылку', ACTION: 'not_signed_for_newsletter'
+         TEXT: 'Отписаться от рассылки', ACTION: 'not_signed_for_newsletter'
       }
    },
    CART: {
@@ -98,7 +137,7 @@ export const USERS_BUTTON =  {
          TEXT: '✅ Подтвердить заказ', ACTION: 'pmake_order_action'
       },
       CLEAN: {
-         TEXT: 'Очистить корзину', ACTION: 'clean_cart_action'
+         TEXT: '❌ Очистить корзину', ACTION: 'clean_cart_action'
       },
    }
 }

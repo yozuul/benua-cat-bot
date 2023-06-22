@@ -7,7 +7,6 @@ export * from './users-kbzhu.scene'
 export * from './users-cart.scene'
 
 export * from './menu/users-menu-weekly.scene'
-export * from './menu/users-menu-daily.scene'
 export * from './menu/users-menu-grill.scene'
 export * from './menu/users-menu-coffee.scene'
 export * from './menu/users-menu-grill-order.scene'

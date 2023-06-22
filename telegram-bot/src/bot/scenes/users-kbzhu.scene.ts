@@ -16,22 +16,16 @@ export class UserKbzhuScene {
    async onStart(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }
-   @Hears(USERS_BUTTON.ABOUT.TEXT)
-   async showSchemeHangler(@Ctx() ctx: SessionContext) {
-      await ctx.replyWithPhoto({
-         source: resolve('../dashboard/public/uploads/medium_scheme_997fe864c3.png')
-      })
-   }
    @SceneEnter()
    async onSceneEnter1(@Ctx() ctx: SessionContext) {
-      await ctx.reply('🏵',
+      await ctx.reply(
+         'Укажите название блюда, чтобы узнать его состав и энергетическую ценность',
          this.navigationKeyboard.backButton()
       )
-      await ctx.reply('Укажите название блюда, чтобы узнать его состав и энергетическую ценность')
    }
    @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
-      ctx.scene.enter(USERS_SCENE.MENU)
+      ctx.scene.enter(USERS_SCENE.STARTED)
    }
    @On('message')
    // (@Sender('id') senderId: number)
@@ -40,16 +34,24 @@ export class UserKbzhuScene {
       let message = ''
       const founded = await this.dishRepo.findDish(text)
       if(founded.length === 0) {
-         await ctx.reply('Блюд не найдено, попробуйте сформулировать запрос по другому')
+         await ctx.reply(
+            'Блюд не найдено, попробуйте сформулировать запрос по другому',
+            this.navigationKeyboard.backButton()
+         )
          return
       }
       let currentIndex = 0
+      if(founded.length > 0) {
+         await ctx.reply('Вот что удалось найти:',
+            this.navigationKeyboard.backButton()
+         )
+      }
       for (let dish of founded) {
          message += `<b>${dish.name}</b>\n`
-         message += `<pre>${dish.category}</pre>\n`
-         message += `${dish.ingredients}\n`
+         message += `${dish.price} руб. | ${dish.weight} гр.\n`
+         // message += `<pre>${dish.category}</pre>\n`
          message += `${dish.kbzhu}\n`
-         message += `Вес: ${dish.weight} | Цена: ${dish.price} руб.\n`
+         message += `${dish.ingredients}\n`
          currentIndex ++
          if(currentIndex !== 9) {
             message += `---\n`
@@ -68,7 +70,7 @@ export class UserKbzhuScene {
          }
       } else {
          await ctx.reply(message, {
-            parse_mode: 'HTML'
+            parse_mode: 'HTML',
          })
       }
    }

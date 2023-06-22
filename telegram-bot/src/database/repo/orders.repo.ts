@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Op } from 'sequelize'
+import { Op, where } from 'sequelize'
 
-import { DishOrderIdLink, Order, OrderGuestIdLink } from '../models'
+import { DishOrderIdLink, Order, OrderGuestIdLink, StopList } from '../models'
 import { GuestRepo } from './guest.repo'
 
 @Injectable()
@@ -17,14 +17,14 @@ export class OrdersRepo {
       private guestRepo: GuestRepo,
    ) {}
 
-   async createOrder(iikoOrderId, guestId, dishes) {
+   async createOrder(iikoOrder, guest, dishes) {
       const order = await this.orderRepo.create({
-         iiko_order_id: iikoOrderId
+         iiko_order_id: iikoOrder,
       })
       try {
          await this.orderGuestLinkRepo.create({
             order_id: order.id,
-            guest_id: guestId
+            guest_id: guest.id
          })
       } catch (error) {
          console.log(error)
@@ -43,7 +43,19 @@ export class OrdersRepo {
          }
       })
    }
-
+   async updateOrderNumber(iikoUUID, guestId) {
+      try {
+         const order = await this.orderRepo.findOne({
+            where: {
+               iiko_order_id: iikoUUID
+            }
+         })
+         order.iiko_order_num = guestId
+         await order.save()
+      } catch (error) {
+         return error
+      }
+   }
    async findOrderByIiikoId(iikoId) {
       return this.orderRepo.findOne({
          where: { iiko_order_id: iikoId }
@@ -58,7 +70,6 @@ export class OrdersRepo {
       const order = await this.findOrderByIiikoId(iikoOrderId)
       const guestLink = await this.findGuestByOrder(order.id)
       const guest = await this.guestRepo.findById(guestLink.guest_id)
-      console.log(guest)
       return guest
    }
 }

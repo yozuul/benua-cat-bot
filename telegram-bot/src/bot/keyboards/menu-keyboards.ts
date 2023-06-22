@@ -97,10 +97,5 @@ function keyboard(dishId, num, scene) {
          { text: '🛒 Оформить заказ', callback_data: 'to_cart_action' },
       ])
    }
-   // else {
-   //    menuData.inline_keyboard.push([
-   //       { text: '⬅️ К выбору категорий', callback_data: 'to_grill_order_action' },
-   //    ])
-   // }
    return menuData
 }

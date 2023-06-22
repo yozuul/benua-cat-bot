@@ -4,15 +4,26 @@
   "info": {
     "singularName": "about",
     "pluralName": "abouts",
-    "displayName": "О нас"
+    "displayName": "О нас",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "citten": {
+    "about_text": {
       "type": "richtext"
+    },
+    "about_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

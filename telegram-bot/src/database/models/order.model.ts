@@ -1,7 +1,5 @@
-import { Column, DataType, Model, Table, BelongsTo, ForeignKey } from 'sequelize-typescript'
+import { Column, DataType, Model, Table } from 'sequelize-typescript'
 
-import { Dish } from './dish.model'
-import { Guest } from './guest.model'
 
 const { INTEGER, TEXT, STRING, DATE, BOOLEAN } = DataType
 
@@ -13,8 +11,12 @@ export class Order extends Model<Order> {
    }) id: number
 
    @Column({
-      type: STRING, allowNull: false,
-   }) iiko_order_id: string;
+      type: STRING, allowNull: true,
+   }) iiko_order_num: string;
+
+   @Column({
+      type: INTEGER, allowNull: false,
+   }) iiko_order_id: number;
 
    @Column({
       type: BOOLEAN, allowNull: false, defaultValue: false
@@ -27,4 +29,5 @@ export class Order extends Model<Order> {
    @Column({
       type: INTEGER, allowNull: false, defaultValue: 1
    }) updated_by_id: number;
+
 }

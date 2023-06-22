@@ -4,25 +4,28 @@ import { Scene, SceneEnter, Hears, On, Ctx, Start, Sender } from 'nestjs-telegra
 import { USERS_SCENE, USERS_BUTTON } from '@app/common/constants'
 import { SessionContext } from '@app/common/interfaces'
 import { NavigationKeyboard } from '@bot/keyboards'
+import { FilesRelatedMorph } from '@app/database/repo'
 
 @Scene(USERS_SCENE.ABOUT)
 export class UserAboutScene {
    constructor(
+      private aboutRepo: FilesRelatedMorph,
+      private filesReletedMorphs: FilesRelatedMorph,
       private readonly navigationKeyboard: NavigationKeyboard
    ) {}
    @Start()
    async onStart(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }
-   @Hears(USERS_BUTTON.ABOUT.TEXT)
+   @Hears(USERS_BUTTON.ABOUT.MAIN.TEXT)
    async showSchemeHangler(@Ctx() ctx: SessionContext) {
       await ctx.replyWithPhoto({
          source: resolve('../dashboard/public/uploads/medium_scheme_997fe864c3.png')
       })
    }
    @SceneEnter()
-   async onSceneEnter1(@Ctx() ctx: SessionContext) {
-      await ctx.reply('🐱',
+   async onSceneEnter(@Ctx() ctx: SessionContext) {
+      await ctx.reply('О НАС',
          this.navigationKeyboard.aboutButton()
       )
       let aboutText = 'Контактная информация:\n'
@@ -35,7 +38,7 @@ export class UserAboutScene {
       aboutText += '  https://cleanplatescafe.com | '
       aboutText += '<a href="https://instagram.com/tarelok?igshid=NTc4MTIwNjQ2YQ==">instagram</a>\n'
       aboutText += '- Бары "Mishka", "Луч" \n'
-      aboutText += '  <a href="https://instagram.com/mishkacrew?igshid=NTc4MTIwNjQ2YQ==">instagram</a> | '
+      aboutText += '  <a href="https://instagram.com/mishkacrew?igshid=NTc4MTIwNjQ2YQ==">instagram</a> |'
       aboutText += '  <a href="https://instagram.com/lu4spb?igshid=NTc4MTIwNjQ2YQ==">instagram 2</a>\n'
       aboutText += '- Кейтеринговая компания\n'
       aboutText += '  http://mishkacatering.com/\n'

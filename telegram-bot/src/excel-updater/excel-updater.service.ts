@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as XLSX from 'xlsx'
 
-import { DishRepo, PanelFilesRepo } from '@app/database/repo'
+import { DishRepo, FilesRelatedMorph } from '@app/database/repo'
 import { IikoService } from 'src/iiko/iiko.service'
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ExcelUpdaterService implements OnModuleInit {
    constructor(
       private dishRepo: DishRepo,
       private iikoService: IikoService,
-      private panelFilesRepo: PanelFilesRepo
+      private panelFilesRepo: FilesRelatedMorph
    ) {}
    async getFiles() {
       const allFiles = await this.panelFilesRepo.getFiles()
@@ -50,11 +50,11 @@ export class ExcelUpdaterService implements OnModuleInit {
             photo_url: null,
             kbzhu: '',
          }
-         dish.kbzhu += `Энергетическая ценность порции: `
-         dish.kbzhu += `б: ${KBZHU.b}, `
-         dish.kbzhu += `ж: ${KBZHU.z}, `
-         dish.kbzhu += `у: ${KBZHU.u}, `
-         dish.kbzhu += `Ккал: ${KBZHU.k}`
+         // dish.kbzhu += `Энергетическая ценность порции: `
+         dish.kbzhu += `K: ${KBZHU.k}, `
+         dish.kbzhu += `Б: ${KBZHU.b}, `
+         dish.kbzhu += `Ж: ${KBZHU.z}, `
+         dish.kbzhu += `У: ${KBZHU.u}`
 
          if(dish.name && dish.price
             && dish.parent_name !== 'Архив'
@@ -65,7 +65,6 @@ export class ExcelUpdaterService implements OnModuleInit {
                const iikoDish = iikoMenu.products.find((iikoDish) => {
                   return iikoDish.code ===  dish.iiko_articul
                })
-               console.log(iikoDish)
                if(iikoDish) {
                   dish.iiko_id = iikoDish.id
                   dish.photo_url = iikoDish.imageLinks[0]

@@ -27,15 +27,20 @@ export class UserStartedScene {
          this.navigationKeyboard.startedUsers()
       )
    }
+   // Заказ на гриле
+   @Hears(USERS_BUTTON.STARTED.GRILL_MENU_ORDER.TEXT)
+   async grillOrderSceneHandler(@Ctx() ctx: SessionContext) {
+      await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
+   }
    // Меню
    @Hears(USERS_BUTTON.STARTED.MENU.TEXT)
    async menuSceneHandler(@Ctx() ctx: SessionContext) {
       await ctx.scene.enter(USERS_SCENE.MENU)
    }
-   // Заказ на гриле
-   @Hears(USERS_BUTTON.STARTED.GRILL_MENU_ORDER.TEXT)
+   // КБЖУ
+   @Hears(USERS_BUTTON.STARTED.KBZHU.TEXT)
    async kbzhuSceneHandler(@Ctx() ctx: SessionContext) {
-      await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
+      await ctx.scene.enter(USERS_SCENE.KBZHU)
    }
    // О нас
    @Hears(USERS_BUTTON.STARTED.ABOUT.TEXT)

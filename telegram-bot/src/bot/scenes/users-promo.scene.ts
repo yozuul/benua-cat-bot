@@ -29,17 +29,17 @@ export class UserPromoScene {
    }
    @Hears(USERS_BUTTON.NEWS.SIGNED.TEXT)
    async signedNewsLrtters(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      await this.guestRepo.toggleNewletterSigned(tg_id, false)
+      await this.guestRepo.toggleNewletterSigned(tg_id, true)
       const checkUser = await this.guestRepo.findByTgId(tg_id)
-      await ctx.reply('Вы успешно отписались от рассылки',
+      await ctx.reply('Вы подписались на рассылку',
          this.navigationKeyboard.newsButton(checkUser.signed_newsletter)
       )
    }
    @Hears(USERS_BUTTON.NEWS.NOT_SIGNED.TEXT)
    async unSignedNewsLrtters(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
-      await this.guestRepo.toggleNewletterSigned(tg_id, true)
+      await this.guestRepo.toggleNewletterSigned(tg_id, false)
       const checkUser = await this.guestRepo.findByTgId(tg_id)
-      await ctx.reply('Вы подписались на рассылку',
+      await ctx.reply('Вы успешно отписались от рассылки',
          this.navigationKeyboard.newsButton(checkUser.signed_newsletter)
       )
    }

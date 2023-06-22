@@ -76,30 +76,35 @@ export class UserCartScene {
       }
       try {
          const guest = await this.guestRepo.find(tg_id)
-         const iikoOrderId = await this.iikoService.createOrder(cartItems, summ)
-         await this.orderRepo.createOrder(iikoOrderId, guest.id, dishesIds)
+         const iikoOrder = await this.iikoService.createOrder(cartItems, summ, guest)
+         await this.orderRepo.createOrder(iikoOrder, guest, dishesIds)
          await this.cleanCart(ctx, tg_id)
          await this.cartRepo.cleanCart(tg_id)
          await cleanTrash(tg_id, ctx)
          await ctx.reply('Спасибо за заказ\nВы получите уведомление по его готовности')
          await ctx.scene.enter(USERS_SCENE.STARTED)
       } catch (error) {
+         console.log(error)
          await ctx.reply('Не смогли добавить заказ')
          console.log('Ошибка создания заказа')
       }
    }
-
    @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    async leaveSceneHandler(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
       await this.cleanCart(ctx, tg_id)
       await cleanTrash(tg_id, ctx)
-      await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
+      await ctx.scene.enter(USERS_SCENE.STARTED)
    }
 
    @Hears(USERS_BUTTON.CART.CLEAN.TEXT)
    async cleanCartButton(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
       await this.cleanCart(ctx, tg_id)
       await this.cartRepo.cleanCart(tg_id)
+      await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
+   }
+
+   @Hears(USERS_BUTTON.STARTED.GRILL_MENU_ORDER.TEXT)
+   async orderGrill(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
       await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
    }
 

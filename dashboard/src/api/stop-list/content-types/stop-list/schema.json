@@ -4,7 +4,8 @@
   "info": {
     "singularName": "stop-list",
     "pluralName": "stop-lists",
-    "displayName": "Стоп лист"
+    "displayName": "Стоп лист",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
