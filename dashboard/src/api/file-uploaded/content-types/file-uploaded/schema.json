@@ -53,6 +53,17 @@
       ]
     },
     "dayly_menu_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "grill_breakfast_menu_image": {
       "allowedTypes": [
         "images",
         "files",

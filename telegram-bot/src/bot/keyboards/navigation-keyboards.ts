@@ -10,9 +10,9 @@ export class NavigationKeyboard {
             USERS_BUTTON.STARTED.GRILL_MENU_ORDER.TEXT,
             USERS_BUTTON.STARTED.GRILL_MENU_ORDER.ACTION
          ),
-         Markup.button.callback(
+         Markup.button.url(
             USERS_BUTTON.STARTED.FEEDBACK.TEXT,
-            USERS_BUTTON.STARTED.FEEDBACK.ACTION
+            USERS_BUTTON.STARTED.FEEDBACK.TEXT,
          ),
          Markup.button.callback(
             USERS_BUTTON.STARTED.KBZHU.TEXT,

@@ -23,9 +23,6 @@ export const USERS_BUTTON =  {
       PROMO: {
          TEXT: 'Новинки и акции', ACTION: 'action_action'
       },
-      PROMO2: {
-         TEXT: 'Обратная связь https://t.me/awsdfasfasf', ACTION: 'action_action'
-      },
       ABOUT: {
          TEXT: 'О нас', ACTION: 'about_action'
       },

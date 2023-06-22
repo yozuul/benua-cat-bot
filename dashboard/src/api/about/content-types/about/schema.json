@@ -16,6 +16,17 @@
       "type": "richtext"
     },
     "about_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "about_read_price_image": {
       "allowedTypes": [
         "images",
         "files",
@@ -24,6 +35,26 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "about_opros_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "about_posters_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

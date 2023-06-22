@@ -36,6 +36,25 @@ export class FilesRelatedMorph {
       }
       return null
    }
+   async findAllFilesUrlByFieldName(fieldName) {
+      const filePath = []
+      const fileApi = await this.filesRelatedRepo.findAll({
+         where: {
+            field: fieldName
+         }
+      })
+      if(fileApi) {
+         for (let item of fileApi) {
+            const founded = await this.filesRepo.findOne({
+               where: {
+                  id: item.file_id
+               }
+            })
+            filePath.push(founded.url)
+         }
+      }
+      return filePath || null
+   }
    async findByNewlatedId(id) {
       const fileApi = await this.filesRelatedRepo.findOne({
          where: {

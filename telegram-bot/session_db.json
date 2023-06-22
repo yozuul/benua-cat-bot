@@ -4,10 +4,14 @@
       "id": "258644975:258644975",
       "data": {
         "__scenes": {
-          "current": "USER_STARTED_SCENE",
+          "current": "USER_MENU_GRILL_ORDER_SCENE",
           "state": {}
         },
-        "trash": [],
+        "trash": [
+          1798,
+          1799,
+          1800
+        ],
         "cart": []
       }
     },
@@ -26,7 +30,7 @@
       "id": "1884297416:1884297416",
       "data": {
         "__scenes": {
-          "current": "USER_STARTED_SCENE",
+          "current": "USER_ABOUT_SCENE",
           "state": {}
         },
         "trash": [],

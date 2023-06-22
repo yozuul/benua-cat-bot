@@ -32,15 +32,20 @@ export class UserStartedScene {
    async grillOrderSceneHandler(@Ctx() ctx: SessionContext) {
       await ctx.scene.enter(USERS_SCENE.MENU_GRILL_ORDER)
    }
-   // Меню
-   @Hears(USERS_BUTTON.STARTED.MENU.TEXT)
-   async menuSceneHandler(@Ctx() ctx: SessionContext) {
-      await ctx.scene.enter(USERS_SCENE.MENU)
+   // Оставить отзыв
+   @Hears(USERS_BUTTON.STARTED.FEEDBACK.TEXT)
+   async feedbackSceneHandler(@Ctx() ctx: SessionContext) {
+      await ctx.reply('Вы можете оставить свой отзыв в нашей группе: https://t.me/awsdfasfasf')
    }
    // КБЖУ
    @Hears(USERS_BUTTON.STARTED.KBZHU.TEXT)
    async kbzhuSceneHandler(@Ctx() ctx: SessionContext) {
       await ctx.scene.enter(USERS_SCENE.KBZHU)
+   }
+   // Меню
+   @Hears(USERS_BUTTON.STARTED.MENU.TEXT)
+   async menuSceneHandler(@Ctx() ctx: SessionContext) {
+      await ctx.scene.enter(USERS_SCENE.MENU)
    }
    // О нас
    @Hears(USERS_BUTTON.STARTED.ABOUT.TEXT)

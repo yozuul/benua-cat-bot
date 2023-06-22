@@ -4,12 +4,13 @@ import { Scene, SceneEnter, Hears, On, Ctx, Start, Sender } from 'nestjs-telegra
 import { USERS_SCENE, USERS_BUTTON } from '@app/common/constants'
 import { SessionContext } from '@app/common/interfaces'
 import { NavigationKeyboard } from '@bot/keyboards'
-import { FilesRelatedMorph } from '@app/database/repo'
+import { AboutRepo, FilesRelatedMorph } from '@app/database/repo'
 
 @Scene(USERS_SCENE.ABOUT)
 export class UserAboutScene {
+   fileUrl = null
    constructor(
-      private aboutRepo: FilesRelatedMorph,
+      private aboutRepo: AboutRepo,
       private filesReletedMorphs: FilesRelatedMorph,
       private readonly navigationKeyboard: NavigationKeyboard
    ) {}
@@ -18,39 +19,109 @@ export class UserAboutScene {
       ctx.scene.enter(USERS_SCENE.STARTED)
    }
    @Hears(USERS_BUTTON.ABOUT.MAIN.TEXT)
-   async showSchemeHangler(@Ctx() ctx: SessionContext) {
-      await ctx.replyWithPhoto({
-         source: resolve('../dashboard/public/uploads/medium_scheme_997fe864c3.png')
-      })
+   async showAboutText(@Ctx() ctx: SessionContext) {
+      await this.getFilePath('about_image', ctx)
+      if(this.fileUrl) {
+         try {
+            await ctx.replyWithPhoto({
+               source: this.fileUrl,
+            })
+         } catch (error) {
+            console.log(error)
+            console.log('Ошибка отправки фотографии')
+            this.sendErrorMessage(ctx)
+         }
+      }
+      const aboutData = await this.aboutRepo.getAboutText()
+      if(aboutData) {
+         try {
+            await ctx.reply(aboutData.about_text, {
+               disable_web_page_preview: true
+            })
+         } catch (error) {
+            console.log(error)
+         }
+      }
+   }
+   @Hears(USERS_BUTTON.ABOUT.PRICE.TEXT)
+   async showPriceImageText(@Ctx() ctx: SessionContext) {
+      await this.getFilePath('about_read_price_image', ctx)
+      if(this.fileUrl) {
+         try {
+            await ctx.replyWithPhoto({
+               source: this.fileUrl,
+            })
+         } catch (error) {
+            console.log(error)
+            console.log('Ошибка отправки фотографии')
+            this.sendErrorMessage(ctx)
+         }
+      }
+   }
+   @Hears(USERS_BUTTON.ABOUT.OPROS.TEXT)
+   async oprosPriceImageText(@Ctx() ctx: SessionContext) {
+      await this.getFilePath('about_opros_image', ctx)
+      if(this.fileUrl) {
+         try {
+            await ctx.replyWithDocument({
+               source: this.fileUrl,
+            })
+         } catch (error) {
+            console.log(error)
+            console.log('Ошибка отправки фотографии')
+            this.sendErrorMessage(ctx)
+         }
+      }
+   }
+   @Hears(USERS_BUTTON.ABOUT.POSTERS.TEXT)
+   async postersPriceImageText(@Ctx() ctx: SessionContext) {
+      const filesData = await this.filesReletedMorphs.findAllFilesUrlByFieldName('about_posters_image')
+      if(filesData && filesData.length > 0) {
+         for (let url of filesData) {
+            try {
+               await ctx.replyWithPhoto({
+                  source: resolve('../dashboard/public' + url)
+               })
+            } catch (error) {
+               console.log(error)
+               console.log('Ошибка отправки фотографии')
+               this.sendErrorMessage(ctx)
+            }
+         }
+      } else {
+         ctx.reply('Данные не загружены')
+      }
    }
    @SceneEnter()
    async onSceneEnter(@Ctx() ctx: SessionContext) {
       await ctx.reply('О НАС',
          this.navigationKeyboard.aboutButton()
       )
-      let aboutText = 'Контактная информация:\n'
-      aboutText += 'TG @kotikicanteen\n'
-      aboutText += '+7 911 156 8589\n'
-      aboutText += 'https://kotikicanteen.ru/\n'
-      aboutText += 'Режим работы 9:00 - 21:00\n\n'
-      aboutText += 'Что еще у нас есть:\n'
-      aboutText += '- Сеть ресторанов "Общество чистых тарелок"\n'
-      aboutText += '  https://cleanplatescafe.com | '
-      aboutText += '<a href="https://instagram.com/tarelok?igshid=NTc4MTIwNjQ2YQ==">instagram</a>\n'
-      aboutText += '- Бары "Mishka", "Луч" \n'
-      aboutText += '  <a href="https://instagram.com/mishkacrew?igshid=NTc4MTIwNjQ2YQ==">instagram</a> |'
-      aboutText += '  <a href="https://instagram.com/lu4spb?igshid=NTc4MTIwNjQ2YQ==">instagram 2</a>\n'
-      aboutText += '- Кейтеринговая компания\n'
-      aboutText += '  http://mishkacatering.com/\n'
-      aboutText += '- Доставка готовых рационов питания\n'
-      aboutText += '  https://tarelok.com/\n'
-      await ctx.reply(aboutText, {
-         disable_web_page_preview: true,
-         parse_mode: 'HTML'
-      })
    }
    @Hears(USERS_BUTTON.COMMON.BACK.TEXT)
    leaveSceneHandler(@Ctx() ctx: SessionContext) {
       ctx.scene.enter(USERS_SCENE.STARTED)
+   }
+
+   async getFilePath(file_type, ctx) {
+      this.fileUrl = null
+      const fileData = await this.filesReletedMorphs.findFileUrlByFieldName(file_type)
+      if(fileData?.url) {
+         this.fileUrl = resolve('../dashboard/public' + fileData.url)
+      } else {
+         ctx.reply('Данные не загружены')
+      }
+   }
+   async sendErrorMessage(ctx) {
+      try {
+         await ctx.telegram.sendMessage(
+            258644975, 'Рамзер изображения слишком большой'
+         )
+         await ctx.telegram.sendMessage(
+            1884297416, 'Рамзер изображения слишком большой'
+         )
+      } catch (error) {
+         console.log('error')
+      }
    }
 }
