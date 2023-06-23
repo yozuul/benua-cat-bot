@@ -14,10 +14,10 @@ export class IikoController implements OnModuleInit {
       private guestRepo: GuestRepo,
       private iikoService: IikoService,
    ) {}
-   @Post('/test')
+   @Post('/getWebhookUpdate')
    async test(@Body() body: any) {
-      const eventName = body[0].eventType
-      const eventInfo = body[0].eventInfo
+      const eventName = body[0]?.eventType
+      const eventInfo = body[0]?.eventInfo
       if(eventName === 'DeliveryOrderUpdate') {
          const status = eventInfo.order.status
          const orderId = eventInfo.id
@@ -46,6 +46,8 @@ export class IikoController implements OnModuleInit {
             }
          }
       }
+      console.log('eventName', eventName)
+      console.log('eventInfo', eventInfo)
       // console.log('\n----- BODY BEGIN -----', body)
       // console.log('----- BODY END -----\n\n')
       // console.log('IikoController eventType', body[0].eventType)

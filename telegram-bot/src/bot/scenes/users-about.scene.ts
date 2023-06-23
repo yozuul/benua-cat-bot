@@ -92,6 +92,21 @@ export class UserAboutScene {
          ctx.reply('Данные не загружены')
       }
    }
+   @Hears(USERS_BUTTON.ABOUT.HALL_SCHEME.TEXT)
+   async hallSchemeImageText(@Ctx() ctx: SessionContext) {
+      await this.getFilePath('hall_scheme_image', ctx)
+      if(this.fileUrl) {
+         try {
+            await ctx.replyWithPhoto({
+               source: this.fileUrl,
+            })
+         } catch (error) {
+            console.log(error)
+            console.log('Ошибка отправки фотографии')
+            this.sendErrorMessage(ctx)
+         }
+      }
+   }
    @SceneEnter()
    async onSceneEnter(@Ctx() ctx: SessionContext) {
       await ctx.reply('О НАС',

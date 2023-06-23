@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx'
 
 import { DishRepo, FilesRelatedMorph } from '@app/database/repo'
 import { IikoService } from 'src/iiko/iiko.service'
+import { Cron } from '@nestjs/schedule'
 
 @Injectable()
 export class ExcelUpdaterService implements OnModuleInit {
@@ -12,6 +13,12 @@ export class ExcelUpdaterService implements OnModuleInit {
       private iikoService: IikoService,
       private panelFilesRepo: FilesRelatedMorph
    ) {}
+
+   @Cron('0 0 * * * *')
+   async updateExcel() {
+      // await this.iikoService.stopList()
+      await this.getFiles()
+   }
    async getFiles() {
       const allFiles = await this.panelFilesRepo.getFiles()
       const excelFile = allFiles.find((file) => file.field === 'excel_table')

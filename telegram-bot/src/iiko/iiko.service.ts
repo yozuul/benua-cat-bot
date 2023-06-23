@@ -15,15 +15,12 @@ export class IikoService implements OnModuleInit {
 
 
    async testIiikoOrderUpdate() {
-      // await this.ordersRepo.updateOrderNumber('06ef0c20-f32f-4d98-910c-ebe4c2230e74', 99)
    }
 
    async onModuleInit() {
       // this.setWebhookSettings()
       // this.testIiikoOrderUpdate()
-      // 6ca8d477-17ce-4281-a17e-81b6926a0ad7
       // await this.stopList()
-      // this.getOrderNumber('06ef0c20-f32f-4d98-910c-ebe4c2230e74')
       // this.downloadFile()
       // await this.auth()
       // this.createOrder()
@@ -124,7 +121,7 @@ export class IikoService implements OnModuleInit {
    async setWebhookSettings() {
       await this.auth()
       const url = 'https://api-ru.iiko.services/api/1/webhooks/update_settings'
-      const webHooksUri = 'https://a7fe-95-67-153-216.ngrok-free.app/iiko/test'
+      const webHooksUri = 'http://89.19.216.226:3000/iiko/getWebhookUpdate'
       try {
          const response = await fetch(url, {
             headers: this.authHeader,

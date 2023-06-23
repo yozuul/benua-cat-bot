@@ -21,7 +21,7 @@ const sessions = new LocalSession({ database: 'session_db.json' })
       }),
       TelegrafModule.forRoot({
          middlewares: [sessions.middleware()],
-         token: process.env.BOT_TOKEN,
+         token: process.env.BOT_TOKEN2,
       }),
       ScheduleModule.forRoot(),
       IikoModule,

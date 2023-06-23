@@ -171,6 +171,10 @@ export class NavigationKeyboard {
             USERS_BUTTON.ABOUT.POSTERS.ACTION
          ),
          Markup.button.callback(
+            USERS_BUTTON.ABOUT.HALL_SCHEME.TEXT,
+            USERS_BUTTON.ABOUT.HALL_SCHEME.ACTION
+         ),
+         Markup.button.callback(
             USERS_BUTTON.COMMON.BACK.TEXT,
             USERS_BUTTON.COMMON.BACK.ACTION
          ),

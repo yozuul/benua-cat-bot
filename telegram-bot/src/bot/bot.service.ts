@@ -40,7 +40,7 @@ export class BotService implements OnModuleInit {
       if(!latest) {
          isNewMessage = await this.newsLettersRepo.getUnsended()
       }
-      if(isNewMessage.length === 0) return
+      if(isNewMessage?.length === 0) return
       for (let message of isNewMessage) {
          textMessage += `<b>${message.header}</b>\n`
          textMessage += `${message.text}\n`
@@ -53,6 +53,7 @@ export class BotService implements OnModuleInit {
          } else {
             await this.sendMessage(tg_id, textMessage, latest)
          }
+         await this.newsLettersRepo.switchUnsendedStatus(message.id)
       }
    }
 

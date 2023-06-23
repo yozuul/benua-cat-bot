@@ -120,6 +120,9 @@ export const USERS_BUTTON =  {
       POSTERS: {
          TEXT: 'Галерея постеров', ACTION: 'scheme_action'
       },
+      HALL_SCHEME: {
+         TEXT: 'Схема зала', ACTION: 'scheme_action'
+      },
    },
    NEWS: {
       SIGNED: {
