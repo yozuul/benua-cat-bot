@@ -30,17 +30,18 @@ export class DishRepo {
          for (let dish of foundedDishes) {
             const iikoId = dish['dish.iiko_id']
             const checkStopList = await this.stopListRepo.checkStopListItem(iikoId)
-            if(checkStopList) return
-            dishes.push({
-               name: dish['dish.name'],
-               ingredients: dish['dish.ingredients'],
-               kbzhu: dish['dish.kbzhu'],
-               weight: dish['dish.weight'],
-               price: dish['dish.price'],
-               photo: dish['dish.photo_url'],
-               iiko_id: iikoId,
-               dish_id: dish['dish_id'],
-            })
+            if(!checkStopList) {
+               dishes.push({
+                  name: dish['dish.name'],
+                  ingredients: dish['dish.ingredients'],
+                  kbzhu: dish['dish.kbzhu'],
+                  weight: dish['dish.weight'],
+                  price: dish['dish.price'],
+                  photo: dish['dish.photo_url'],
+                  iiko_id: iikoId,
+                  dish_id: dish['dish_id'],
+               })
+            }
          }
       }
       return dishes

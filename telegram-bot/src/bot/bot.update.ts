@@ -23,6 +23,11 @@ export class BotUpdate {
    }
    @On('callback_query')
    async handleNonSceneCallback(@Ctx() ctx: SessionContext, @Sender('id') tg_id: number) {
+      // try {
+      //    await this.guestRepo.findCreate(tg_id, ctx.message.from.first_name)
+      // } catch (error) {
+      //    console.log(error)
+      // }
       const queryData = ctx.callbackQuery['data']
       if(queryData === 'to_grill_order_action') {
          await cleanTrash(tg_id, ctx)
@@ -30,6 +35,10 @@ export class BotUpdate {
       if(queryData.includes('menu_grill')) {
          const grillType = queryData.split('menu_grill_')[1]
          const dishes = await this.dishRepo.getByCategory(grillType)
+         if(!dishes) {
+            await ctx.answerCbQuery('Блюда не найдены')
+            return
+         }
          const carts = await this.cartRepo.findCartByTgId(tg_id)
          await generateGrillMenu(dishes, carts, ctx)
          await ctx.answerCbQuery()

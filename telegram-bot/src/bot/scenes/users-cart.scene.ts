@@ -81,8 +81,8 @@ export class UserCartScene {
          await this.cleanCart(ctx, tg_id)
          await this.cartRepo.cleanCart(tg_id)
          await cleanTrash(tg_id, ctx)
-         await ctx.reply('Спасибо за заказ\nВы получите уведомление по его готовности')
-         await ctx.scene.enter(USERS_SCENE.STARTED)
+         // await ctx.reply('Спасибо за заказ\nВы получите уведомление по его готовности')
+         // await ctx.scene.enter(USERS_SCENE.STARTED)
       } catch (error) {
          console.log(error)
          await ctx.reply('Не смогли добавить заказ')

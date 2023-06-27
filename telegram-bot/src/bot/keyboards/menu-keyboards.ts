@@ -6,6 +6,9 @@ export const generateGrillMenu = async (dishes, carts, ctx) => {
    if(!ctx.session.trash) {
       ctx.session.trash = []
    }
+   if(dishes?.length == 0 || !dishes?.length) {
+      // await ctx.session.enter(USERS_SCENE.STARTED)
+   }
    for (let dish of dishes) {
       let imgCaption = baseCaption(dish)
       const cartExist = await carts.find((cartDish) => {
